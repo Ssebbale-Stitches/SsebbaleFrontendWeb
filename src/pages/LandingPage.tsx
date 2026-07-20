@@ -601,7 +601,7 @@ export default function LandingPage() {
                 <svg viewBox="0 0 24 24" className="w-4 h-4 mt-0.5 shrink-0 text-lilac-light" stroke="currentColor" fill="none">
                   <path d="M4 6.5 12 13l8-6.5M4 6.5h16v11H4v-11Z" strokeWidth="1.5" strokeLinejoin="round" />
                 </svg>
-                hello@ssebbalestitches.com
+                ssebbaleisaac4@gmail.com
               </li>
               <li className="flex items-start gap-2.5">
                 <svg viewBox="0 0 24 24" className="w-4 h-4 mt-0.5 shrink-0 text-lilac-light" stroke="currentColor" fill="none">
@@ -611,7 +611,7 @@ export default function LandingPage() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                +256 700 000 000
+                +256 776 419829
               </li>
             </ul>
           </div>
