@@ -25,24 +25,28 @@ function useReveal<T extends HTMLElement>(startVisible = false) {
   return { ref, visible };
 }
 
+import mensImg from "../assets/images/Men.png";
+import womensImg from "../assets/images/Women.png";
+import childrensImg from "../assets/images/Children.png";
+
 const CATEGORIES = [
   {
     name: "Men's Wear",
     items: "Suits · Shirts · Traditional Wear",
     count: "24",
-    swatch: "bg-[repeating-linear-gradient(45deg,_#0d0d0f,_#0d0d0f_10px,_#2a2a30_10px,_#2a2a30_20px)]",
+    image: mensImg,
   },
   {
     name: "Women's Wear",
     items: "Dresses · Blazers · Corsets",
     count: "31",
-    swatch: "bg-[repeating-linear-gradient(45deg,_#6a56b0,_#6a56b0_10px,_#8a6fd1_10px,_#8a6fd1_20px)]",
+    image: womensImg,
   },
   {
     name: "Children's Wear",
     items: "Occasion Outfits · Casual Wear",
     count: "12",
-    swatch: "bg-[repeating-linear-gradient(45deg,_#8a6fd1,_#8a6fd1_10px,_#b8a8e8_10px,_#b8a8e8_20px)]",
+    image: childrensImg,
   },
 ];
 
@@ -321,31 +325,44 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CATEGORIES */}
-      <section id="collections" className="px-[6vw] py-[70px]" ref={categories.ref}>
-        <p className={eyebrow}>Collections</p>
-        <h2 className="font-display font-semibold text-[clamp(1.7rem,3vw,2.3rem)] max-w-[20ch] mb-10">
-          Three wardrobes, one workshop.
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {CATEGORIES.map((cat, i) => (
-            <div
-              key={cat.name}
-              className={`bg-lilac-soft rounded-xl overflow-hidden transition-all duration-700 ease-out ${
-                categories.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-              style={{ transitionDelay: `${i * 90}ms` }}
-            >
-              <div className={`h-32 ${cat.swatch}`} />
-              <div className="p-5">
-                <h3 className="font-display text-lg mb-1.5">{cat.name}</h3>
-                <p className="text-sm text-ink/60 mb-3">{cat.items}</p>
-                <span className="font-mono text-xs text-lilac-deep">{cat.count} pieces</span>
-              </div>
-            </div>
-          ))}
+    {/* CATEGORIES */}
+<section id="collections" className="px-[6vw] py-[70px]" ref={categories.ref}>
+  <p className={eyebrow}>Collections</p>
+  <h2 className="font-display font-semibold text-[clamp(1.7rem,3vw,2.3rem)] max-w-[20ch] mb-10">
+    Three wardrobes, one workshop.
+  </h2>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {CATEGORIES.map((cat, i) => (
+      <div
+        key={cat.name}
+        className={`group relative rounded-3xl overflow-hidden aspect-[4/5] transition-all duration-700 ease-out hover:-translate-y-2 ${
+          categories.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+        style={{ transitionDelay: `${i * 90}ms` }}
+      >
+        <img
+          src={cat.image}
+          alt={cat.name}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-ink/0 to-ink/0 group-hover:from-ink/60 transition-all duration-500" />
+
+        <span className="absolute top-4 right-4 rounded-full bg-white/30 backdrop-blur-md border border-white/50 px-3 py-1 font-mono text-[11px] text-white shadow-sm">
+          {cat.count} pieces
+        </span>
+
+        <div className="absolute inset-x-3 bottom-3 rounded-2xl bg-white/25 backdrop-blur-xl border border-white/40 p-4 shadow-lg transition-all duration-500 ease-out group-hover:bg-white/35">
+          <span className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+          <h3 className="font-display text-lg text-white drop-shadow-sm mb-1">{cat.name}</h3>
+          <p className="text-xs text-white/85 leading-relaxed max-h-0 opacity-0 group-hover:max-h-12 group-hover:opacity-100 transition-all duration-500 ease-out overflow-hidden">
+            {cat.items}
+          </p>
         </div>
-      </section>
+      </div>
+    ))}
+  </div>
+</section>
 
       {/* SERVICES */}
       <section id="services" className="relative bg-ink overflow-hidden px-[6vw] py-24" ref={services.ref}>
