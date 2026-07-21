@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import logo from "../assets/images/Business-logo.jpeg";
+import heroImg from "../assets/images/Hero.jpeg";
+import mensImg from "../assets/images/Men.png";
+import womensImg from "../assets/images/Women.png";
+import childrensImg from "../assets/images/Children.png";
 
 function useReveal<T extends HTMLElement>(startVisible = false) {
   const ref = useRef<T | null>(null);
@@ -24,10 +28,6 @@ function useReveal<T extends HTMLElement>(startVisible = false) {
 
   return { ref, visible };
 }
-
-import mensImg from "../assets/images/Men.png";
-import womensImg from "../assets/images/Women.png";
-import childrensImg from "../assets/images/Children.png";
 
 const CATEGORIES = [
   {
@@ -228,32 +228,49 @@ export default function LandingPage() {
 
   return (
     <div className="bg-paper text-ink font-sans">
+
       {/* NAV */}
       <header
-        className={`sticky top-0 flex items-center justify-between px-[6vw] z-50 transition-all duration-300 ${
-          scrolled ? "bg-paper/90 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"
+        className={`sticky top-0 z-50 flex items-center justify-between px-[6vw] transition-all duration-500 ease-out ${
+          scrolled
+            ? "py-3 bg-white/40 backdrop-blur-2xl border-b border-white/50 shadow-[0_8px_30px_-15px_rgba(106,86,176,0.25)]"
+            : "py-5 bg-white/10 backdrop-blur-md border-b border-transparent"
         }`}
       >
-        <a className="flex items-center no-underline" href="/">
-          <img src={logo} alt="Ssebbale Stitches" className="h-14 w-auto rounded-full object-cover" />
+        <a className="group flex items-center no-underline" href="/">
+          <img
+            src={logo}
+            alt="Ssebbale Stitches"
+            className="h-14 w-auto rounded-full object-cover ring-2 ring-white/60 shadow-md transition-transform duration-500 group-hover:scale-105 group-hover:ring-lilac/60"
+          />
         </a>
 
         <nav
           className={`${
             menuOpen ? "flex" : "hidden"
-          } md:flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-7 absolute md:static top-full right-[6vw] md:right-auto bg-paper md:bg-transparent p-5 md:p-0 rounded-lg md:rounded-none shadow-lg md:shadow-none`}
+          } md:flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 absolute md:static top-full right-[6vw] md:right-auto mt-2 md:mt-0 bg-white/60 md:bg-transparent backdrop-blur-2xl md:backdrop-blur-none p-5 md:p-0 rounded-2xl md:rounded-none border border-white/50 md:border-none shadow-xl md:shadow-none`}
         >
-          <a className="text-ink no-underline text-sm" href="#collections">
-            Collections
-          </a>
-          <a className="text-ink no-underline text-sm" href="#services">
-            Services
-          </a>
-          <a className="text-ink no-underline text-sm" href="#journey">
-            How it works
-          </a>
-          <a className="text-ink no-underline text-sm border border-ink rounded-full px-4 py-2" href="/login">
-            Tailor Sign In
+          {[
+            { label: "Collections", href: "#collections" },
+            { label: "Services", href: "#services" },
+            { label: "How it works", href: "#journey" },
+          ].map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="relative text-ink no-underline text-sm group"
+            >
+              {link.label}
+              <span className="absolute -bottom-1 left-0 h-px w-0 bg-lilac-deep transition-all duration-300 ease-out group-hover:w-full" />
+            </a>
+          ))}
+
+          <a
+            className="relative overflow-hidden text-sm text-ink no-underline border border-ink/70 rounded-full px-4 py-2 transition-colors duration-300 hover:text-white hover:border-lilac-deep group"
+            href="/login"
+          >
+            <span className="absolute inset-0 bg-lilac-deep -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out" />
+            <span className="relative">Tailor Sign In</span>
           </a>
         </nav>
 
@@ -263,8 +280,8 @@ export default function LandingPage() {
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((v) => !v)}
         >
-          <span className="w-5.5 h-0.5 bg-ink" />
-          <span className="w-5.5 h-0.5 bg-ink" />
+          <span className={`w-5.5 h-0.5 bg-ink transition-transform duration-300 ${menuOpen ? "rotate-45 translate-y-[3px]" : ""}`} />
+          <span className={`w-5.5 h-0.5 bg-ink transition-transform duration-300 ${menuOpen ? "-rotate-45 -translate-y-[3px]" : ""}`} />
         </button>
       </header>
 
@@ -278,7 +295,7 @@ export default function LandingPage() {
         >
           <p className={eyebrow}>Ssebbale Stitches · Kampala</p>
           <h1 className="font-display font-semibold text-[clamp(2.6rem,5.4vw,4.4rem)] leading-[1.08]">
-            Cut to fit
+            Tailored to fit
             <br />
             <span className="italic font-normal bg-[linear-gradient(#8a6fd1,#8a6fd1)] bg-no-repeat bg-[length:100%_3px] bg-[position:0_92%]">
               every story.
@@ -299,70 +316,73 @@ export default function LandingPage() {
         </div>
 
         <div
-          className={`flex justify-center order-first md:order-none transition-all duration-700 delay-150 ease-out ${
+          className={`relative flex justify-center order-first md:order-none transition-all duration-700 delay-150 ease-out ${
             hero.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
-          aria-hidden="true"
         >
-          <svg viewBox="0 0 320 320" className="w-[min(340px,80vw)] h-auto">
-            <circle cx="160" cy="160" r="130" className="fill-none stroke-ink" strokeOpacity="0.25" strokeWidth="1" />
-            {Array.from({ length: 36 }).map((_, i) => {
-              const angle = (i / 36) * 2 * Math.PI;
-              const long = i % 3 === 0;
-              const r1 = 130;
-              const r2 = long ? 112 : 120;
-              const x1 = 160 + r1 * Math.cos(angle);
-              const y1 = 160 + r1 * Math.sin(angle);
-              const x2 = 160 + r2 * Math.cos(angle);
-              const y2 = 160 + r2 * Math.sin(angle);
-              return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} className="stroke-lilac" strokeWidth="1.2" />;
-            })}
-            <circle cx="160" cy="160" r="88" className="fill-ink" />
-            <text x="160" y="168" textAnchor="middle" className="fill-paper font-display italic" fontSize="20">
-              Ssebbale
-            </text>
-          </svg>
+          <div className="pointer-events-none absolute -top-10 -right-10 w-72 h-72 rounded-full bg-lilac/25 blur-[90px]" />
+          <div className="pointer-events-none absolute -bottom-14 -left-6 w-56 h-56 rounded-full bg-lilac-deep/20 blur-[80px]" />
+
+          <div className="relative w-full max-w-[420px] rounded-[2rem] overflow-hidden border border-white/50 shadow-[0_30px_60px_-20px_rgba(106,86,176,0.35)] animate-[float_6s_ease-in-out_infinite]">
+            <img
+              src={heroImg}
+              alt="Ssebbale Stitches tailoring"
+              className="w-full h-[480px] object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent" />
+            <span className="absolute inset-x-3 top-3 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+          </div>
+
+          <div className="absolute -bottom-6 -left-6 rounded-2xl bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg px-5 py-4 animate-[float_6s_ease-in-out_infinite_0.5s]">
+            <span className="font-mono text-2xl text-lilac-deep block">120+</span>
+            <span className="text-xs text-ink/70">Garments tailored this year</span>
+          </div>
+
+          <div className="absolute -top-5 -right-4 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg px-4 py-2 flex items-center gap-2 animate-[float_6s_ease-in-out_infinite_1s]">
+            <span className="w-2 h-2 rounded-full bg-lilac animate-pulse" />
+            <span className="text-xs font-medium text-ink/80">Now booking consultations</span>
+          </div>
         </div>
       </section>
 
-    {/* CATEGORIES */}
-<section id="collections" className="px-[6vw] py-[70px]" ref={categories.ref}>
-  <p className={eyebrow}>Collections</p>
-  <h2 className="font-display font-semibold text-[clamp(1.7rem,3vw,2.3rem)] max-w-[20ch] mb-10">
-    Three wardrobes, one workshop.
-  </h2>
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-    {CATEGORIES.map((cat, i) => (
-      <div
-        key={cat.name}
-        className={`group relative rounded-3xl overflow-hidden aspect-[4/5] transition-all duration-700 ease-out hover:-translate-y-2 ${
-          categories.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        }`}
-        style={{ transitionDelay: `${i * 90}ms` }}
-      >
-        <img
-          src={cat.image}
-          alt={cat.name}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-        />
+      {/* CATEGORIES */}
+      <section id="collections" className="px-[6vw] py-[70px]" ref={categories.ref}>
+        <p className={eyebrow}>Collections</p>
+        <h2 className="font-display font-semibold text-[clamp(1.7rem,3vw,2.3rem)] max-w-[20ch] mb-10">
+          Three wardrobes, one workshop.
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {CATEGORIES.map((cat, i) => (
+            <div
+              key={cat.name}
+              className={`group relative rounded-3xl overflow-hidden aspect-[4/5] transition-all duration-700 ease-out hover:-translate-y-2 ${
+                categories.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+              style={{ transitionDelay: `${i * 90}ms` }}
+            >
+              <img
+                src={cat.image}
+                alt={cat.name}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+              />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-ink/0 to-ink/0 group-hover:from-ink/60 transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-ink/0 to-ink/0 group-hover:from-ink/60 transition-all duration-500" />
 
-        <span className="absolute top-4 right-4 rounded-full bg-white/30 backdrop-blur-md border border-white/50 px-3 py-1 font-mono text-[11px] text-white shadow-sm">
-          {cat.count} pieces
-        </span>
+              <span className="absolute top-4 right-4 rounded-full bg-white/30 backdrop-blur-md border border-white/50 px-3 py-1 font-mono text-[11px] text-white shadow-sm">
+                {cat.count} pieces
+              </span>
 
-        <div className="absolute inset-x-3 bottom-3 rounded-2xl bg-white/25 backdrop-blur-xl border border-white/40 p-4 shadow-lg transition-all duration-500 ease-out group-hover:bg-white/35">
-          <span className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
-          <h3 className="font-display text-lg text-white drop-shadow-sm mb-1">{cat.name}</h3>
-          <p className="text-xs text-white/85 leading-relaxed max-h-0 opacity-0 group-hover:max-h-12 group-hover:opacity-100 transition-all duration-500 ease-out overflow-hidden">
-            {cat.items}
-          </p>
+              <div className="absolute inset-x-3 bottom-3 rounded-2xl bg-white/25 backdrop-blur-xl border border-white/40 p-4 shadow-lg transition-all duration-500 ease-out group-hover:bg-white/35">
+                <span className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+                <h3 className="font-display text-lg text-white drop-shadow-sm mb-1">{cat.name}</h3>
+                <p className="text-xs text-white/85 leading-relaxed max-h-0 opacity-0 group-hover:max-h-12 group-hover:opacity-100 transition-all duration-500 ease-out overflow-hidden">
+                  {cat.items}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
-    ))}
-  </div>
-</section>
+      </section>
 
       {/* SERVICES */}
       <section id="services" className="relative bg-ink overflow-hidden px-[6vw] py-24" ref={services.ref}>
