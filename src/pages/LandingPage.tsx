@@ -176,6 +176,7 @@ const eyebrow = "font-mono uppercase tracking-[0.14em] text-xs text-lilac-deep m
 const SOCIALS = [
   {
     label: "Instagram",
+    href: "https://www.instagram.com/ssebbale_stitches?igsh=NWEyaHdxeHdya3N0",
     path: (
       <>
         <rect x="3.5" y="3.5" width="17" height="17" rx="5" strokeWidth="1.6" fill="none" />
@@ -185,18 +186,8 @@ const SOCIALS = [
     ),
   },
   {
-    label: "Facebook",
-    path: (
-      <path
-        d="M14 8.5h2.5V5H14c-2 0-3.3 1.4-3.3 3.5V11H8.5v3H10.7v6h3V14h2.3l.5-3H13.7V9c0-.5.2-.5.3-.5Z"
-        strokeWidth="1.4"
-        strokeLinejoin="round"
-        fill="none"
-      />
-    ),
-  },
-  {
     label: "WhatsApp",
+    href: "https://wa.me/256776419829",
     path: (
       <path
         d="M7 17.5 4.5 20l1-3.7A8 8 0 1 1 12 20a8 8 0 0 1-5-1.7Z M9 9c0 3 2.5 5.5 5.5 5.5"
@@ -204,6 +195,30 @@ const SOCIALS = [
         strokeLinecap="round"
         strokeLinejoin="round"
         fill="none"
+      />
+    ),
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@ssebbale_stitches",
+    path: (
+      <path
+        d="M14 3.5c.4 2 1.8 3.4 3.8 3.6v2.6c-1.4 0-2.7-.4-3.8-1.2v6.3a4.9 4.9 0 1 1-4.9-4.9c.3 0 .6 0 .9.07v2.6a2.3 2.3 0 1 0 1.6 2.2V3.5H14Z"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        fill="none"
+      />
+    ),
+  },
+  {
+    label: "X",
+    href: "https://x.com/ssebbaleisaac?s=11",
+    path: (
+      <path
+        d="M5 4.5 18.5 19.5M18.5 4.5 5 19.5"
+        strokeWidth="1.6"
+        strokeLinecap="round"
       />
     ),
   },
@@ -535,129 +550,160 @@ export default function LandingPage() {
       <section
         id="book"
         ref={cta.ref}
-        className={`px-[6vw] py-[70px] text-center transition-all duration-700 ease-out ${
+        className={`relative overflow-hidden px-[6vw] py-24 transition-all duration-700 ease-out ${
           cta.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
         }`}
       >
-        <h2 className="font-display font-semibold text-[clamp(1.9rem,4vw,2.8rem)] mb-7">Ready to be measured?</h2>
-        <div className="flex gap-3.5 flex-wrap justify-center">
-          <a className={btnPrimary} href="#book">
-            Book a Consultation
-          </a>
-          <a className={btnGhost} href="/login">
-            Tailor Sign In
-          </a>
+        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[36rem] h-[36rem] rounded-full bg-lilac/20 blur-[110px]" />
+
+        <div className="relative max-w-3xl mx-auto text-center rounded-[2.5rem] bg-white/40 backdrop-blur-2xl border border-white/60 shadow-[0_30px_70px_-25px_rgba(106,86,176,0.4)] px-8 py-16 sm:px-16">
+          <span className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/50 border border-white/70 px-4 py-1.5 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-lilac-deep animate-pulse" />
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-lilac-deep">Booking now</span>
+          </span>
+
+          <h2 className="font-display font-semibold text-[clamp(1.9rem,4vw,2.8rem)] mb-4">
+            Ready to be measured?
+          </h2>
+          <p className="text-ink/65 max-w-md mx-auto mb-8">
+            Book a consultation and let's start turning your ideas into something worth wearing.
+          </p>
+
+          <div className="flex gap-3.5 flex-wrap justify-center">
+            <a
+              className="relative overflow-hidden inline-block px-7 py-3.5 rounded-full bg-lilac-deep text-paper text-sm font-medium shadow-lg shadow-lilac-deep/30 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-lilac-deep/40"
+              href="#book"
+            >
+              <span className="absolute inset-0 bg-white/20 -translate-x-full hover:translate-x-0 transition-transform duration-500" />
+              <span className="relative">Book a Consultation</span>
+            </a>
+            <a
+              className="inline-block px-7 py-3.5 rounded-full border border-ink/70 text-ink text-sm font-medium transition-all duration-300 hover:-translate-y-1 hover:bg-white/50 hover:border-lilac-deep"
+              href="/login"
+            >
+              Tailor Sign In
+            </a>
+          </div>
         </div>
       </section>
 
       {/* FOOTER */}
       <footer className="relative bg-ink text-paper overflow-hidden">
         <div className="pointer-events-none absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-lilac/15 blur-[100px]" />
+        <div className="pointer-events-none absolute -top-24 right-0 w-72 h-72 rounded-full bg-lilac-deep/15 blur-[100px]" />
 
-        <div className="relative px-[6vw] pt-16 pb-10 grid grid-cols-1 md:grid-cols-[1.3fr_1fr_1fr_1fr] gap-10">
-          {/* BRAND */}
-          <div>
-            <a className="flex items-center no-underline mb-4" href="/">
-              <img src={logo} alt="Ssebbale Stitches" className="h-12 w-auto rounded-full object-cover" />
-            </a>
-            <p className="text-sm text-paper/60 leading-relaxed max-w-[32ch] mb-5">
-              Bespoke tailoring for men, women and children — from first sketch to final fitting, all in one
-              workshop.
-            </p>
-            <div className="flex gap-3">
-              {SOCIALS.map((s) => (
-                <a
-                  key={s.label}
-                  href="#"
-                  aria-label={s.label}
-                  className="flex items-center justify-center w-9 h-9 rounded-full border border-paper/20 text-paper/70 hover:text-paper hover:border-lilac-light hover:bg-paper/[0.06] transition-colors duration-300"
-                >
-                  <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor">
-                    {s.path}
+        <div className="relative px-[6vw] pt-16 pb-10">
+          <div className="rounded-[2rem] bg-white/[0.06] backdrop-blur-2xl border border-white/10 p-8 md:p-12 grid grid-cols-1 md:grid-cols-[1.3fr_1fr_1fr_1fr] gap-10">
+            <span className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+            {/* BRAND */}
+            <div>
+              <a className="flex items-center no-underline mb-4" href="/">
+                <img src={logo} alt="Ssebbale Stitches" className="h-12 w-auto rounded-full object-cover ring-2 ring-white/20" />
+              </a>
+              <p className="text-sm text-paper/60 leading-relaxed max-w-[32ch] mb-5">
+                Bespoke tailoring for men, women and children — from first sketch to final fitting, all in one
+                workshop.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {SOCIALS.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="flex items-center justify-center w-9 h-9 rounded-full bg-white/5 backdrop-blur-md border border-white/15 text-paper/70 transition-all duration-300 hover:text-paper hover:border-lilac-light/60 hover:bg-white/15 hover:-translate-y-0.5"
+                  >
+                    <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor">
+                      {s.path}
+                    </svg>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* QUICK LINKS */}
+            <div>
+              <h4 className="font-display text-sm mb-4 text-paper">Quick Links</h4>
+              <ul className="flex flex-col gap-2.5 text-sm text-paper/60">
+                <li>
+                  <a className="hover:text-lilac-light transition-colors" href="#collections">
+                    Collections
+                  </a>
+                </li>
+                <li>
+                  <a className="hover:text-lilac-light transition-colors" href="#services">
+                    Services
+                  </a>
+                </li>
+                <li>
+                  <a className="hover:text-lilac-light transition-colors" href="#journey">
+                    How it works
+                  </a>
+                </li>
+                <li>
+                  <a className="hover:text-lilac-light transition-colors" href="#book">
+                    Book a Consultation
+                  </a>
+                </li>
+                <li>
+                  <a className="hover:text-lilac-light transition-colors" href="/login">
+                    Tailor Sign In
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* SERVICES */}
+            <div>
+              <h4 className="font-display text-sm mb-4 text-paper">Services</h4>
+              <ul className="flex flex-col gap-2.5 text-sm text-paper/60">
+                <li>Consultation</li>
+                <li>Custom Tailoring</li>
+                <li>Suit Hiring</li>
+                <li>Booking</li>
+              </ul>
+            </div>
+
+            {/* CONTACT */}
+            <div>
+              <h4 className="font-display text-sm mb-4 text-paper">Get in Touch</h4>
+              <ul className="flex flex-col gap-3 text-sm text-paper/60">
+                <li className="flex items-start gap-2.5">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 mt-0.5 shrink-0 text-lilac-light" stroke="currentColor" fill="none">
+                    <path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11Z" strokeWidth="1.5" strokeLinejoin="round" />
+                    <circle cx="12" cy="10" r="2.3" strokeWidth="1.5" />
                   </svg>
-                </a>
-              ))}
+                  Kampala, Uganda
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 mt-0.5 shrink-0 text-lilac-light" stroke="currentColor" fill="none">
+                    <path d="M4 6.5 12 13l8-6.5M4 6.5h16v11H4v-11Z" strokeWidth="1.5" strokeLinejoin="round" />
+                  </svg>
+                  ssebbaleisaac4@gmail.com
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 mt-0.5 shrink-0 text-lilac-light" stroke="currentColor" fill="none">
+                    <path
+                      d="M6 3.5h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5l1.5-2 4 1.5v3a1.5 1.5 0 0 1-1.6 1.5A17 17 0 0 1 4.5 5.1 1.5 1.5 0 0 1 6 3.5Z"
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  +256 776 419829
+                </li>
+              </ul>
             </div>
           </div>
 
-          {/* QUICK LINKS */}
-          <div>
-            <h4 className="font-display text-sm mb-4 text-paper">Quick Links</h4>
-            <ul className="flex flex-col gap-2.5 text-sm text-paper/60">
-              <li>
-                <a className="hover:text-lilac-light transition-colors" href="#collections">
-                  Collections
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-lilac-light transition-colors" href="#services">
-                  Services
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-lilac-light transition-colors" href="#journey">
-                  How it works
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-lilac-light transition-colors" href="#book">
-                  Book a Consultation
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-lilac-light transition-colors" href="/login">
-                  Tailor Sign In
-                </a>
-              </li>
-            </ul>
+          {/* BOTTOM BAR */}
+          <div className="relative border-t border-paper/10 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <span className="text-xs text-paper/45">Ssebbale Stitches · Kampala, Uganda</span>
+            <span className="font-mono text-xs text-paper/45">© {new Date().getFullYear()} All rights reserved</span>
           </div>
-
-          {/* SERVICES */}
-          <div>
-            <h4 className="font-display text-sm mb-4 text-paper">Services</h4>
-            <ul className="flex flex-col gap-2.5 text-sm text-paper/60">
-              <li>Consultation</li>
-              <li>Custom Tailoring</li>
-              <li>Suit Hiring</li>
-              <li>Booking</li>
-            </ul>
-          </div>
-
-          {/* CONTACT */}
-          <div>
-            <h4 className="font-display text-sm mb-4 text-paper">Get in Touch</h4>
-            <ul className="flex flex-col gap-3 text-sm text-paper/60">
-              <li className="flex items-start gap-2.5">
-                <svg viewBox="0 0 24 24" className="w-4 h-4 mt-0.5 shrink-0 text-lilac-light" stroke="currentColor" fill="none">
-                  <path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11Z" strokeWidth="1.5" strokeLinejoin="round" />
-                  <circle cx="12" cy="10" r="2.3" strokeWidth="1.5" />
-                </svg>
-                Kampala, Uganda
-              </li>
-              <li className="flex items-start gap-2.5">
-                <svg viewBox="0 0 24 24" className="w-4 h-4 mt-0.5 shrink-0 text-lilac-light" stroke="currentColor" fill="none">
-                  <path d="M4 6.5 12 13l8-6.5M4 6.5h16v11H4v-11Z" strokeWidth="1.5" strokeLinejoin="round" />
-                </svg>
-                ssebbaleisaac4@gmail.com
-              </li>
-              <li className="flex items-start gap-2.5">
-                <svg viewBox="0 0 24 24" className="w-4 h-4 mt-0.5 shrink-0 text-lilac-light" stroke="currentColor" fill="none">
-                  <path
-                    d="M6 3.5h3l1.5 4-2 1.5a12 12 0 0 0 6.5 6.5l1.5-2 4 1.5v3a1.5 1.5 0 0 1-1.6 1.5A17 17 0 0 1 4.5 5.1 1.5 1.5 0 0 1 6 3.5Z"
-                    strokeWidth="1.5"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                +256 776 419829
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* BOTTOM BAR */}
-        <div className="relative border-t border-paper/10 px-[6vw] py-6 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <span className="text-xs text-paper/45">Ssebbale Stitches · Kampala, Uganda</span>
-          <span className="font-mono text-xs text-paper/45">© {new Date().getFullYear()} All rights reserved</span>
         </div>
       </footer>
     </div>
