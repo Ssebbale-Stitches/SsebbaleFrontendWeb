@@ -138,7 +138,6 @@ export default function LoginPage() {
 
         <a href="/" className="relative flex items-center gap-2.5 no-underline mb-5 w-fit">
           <img src={logo} alt="Ssebbale Stitches" className="h-9 w-auto rounded-full object-cover" />
-          <span className="font-display font-semibold text-base text-ink">Ssebbale Stitches</span>
         </a>
 
         <div className="relative max-w-md w-full">
@@ -272,12 +271,17 @@ export default function LoginPage() {
             </form>
           </div>
 
-          <p className="text-center text-xs text-ink/50 mt-4">
-            Not a tailor?{" "}
-            <a href="/" className="text-lilac-deep hover:underline">
-              Back to the storefront
-            </a>
-          </p>
+     <p className="text-center text-xs text-ink/50 mt-4">
+  Don't have an account?{" "}
+  <a href="/signup" className="text-lilac-deep hover:underline font-medium">
+    Create one
+  </a>
+</p>
+<p className="text-center text-xs text-ink/50 mt-2">
+  <a href="/" className="text-lilac-deep hover:underline">
+    Back to the storefront
+  </a>
+</p>
         </div>
       </div>
     </div>
