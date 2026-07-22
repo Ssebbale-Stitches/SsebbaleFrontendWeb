@@ -28,16 +28,22 @@ function useReveal<T extends HTMLElement>(startVisible = false) {
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [agreed, setAgreed] = useState(false);
 
   const card = useReveal<HTMLDivElement>(true);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
     // wire up to your account-creation logic
   };
 
@@ -79,25 +85,56 @@ export default function SignUpPage() {
 
         {/* CONTENT */}
         <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 px-8 md:px-14 py-10 md:py-12">
-          {/* TOP BAR */}
+          {/* TOP BAR - Logo only on left */}
           <div className="md:col-span-2 flex items-center justify-between mb-2">
-            <img src={logo} alt="Ssebbale Stitches" className="h-10 w-auto rounded-full object-cover ring-2 ring-white/20" />
+            <a href="/" className="flex items-center group">
+              <img src={logo} alt="Ssebbale Stitches" className="h-14 w-auto rounded-full object-cover ring-2 ring-white/20 transition-transform duration-300 group-hover:scale-105" />
+            </a>
+          </div>
+
+          {/* LEFT — WELCOMING WORDS */}
+          <div className="flex flex-col justify-center md:pr-6 order-2 md:order-1">
+            <p className="font-mono uppercase tracking-[0.14em] text-xs text-lilac-light mb-4">
+              Tailor dashboard
+            </p>
+            
+            <h1 className="font-display font-semibold text-[clamp(2rem,4vw,3.2rem)] leading-[1.1] text-paper mb-5">
+              Tailored to fit{" "}
+              <span className="italic font-normal text-lilac-light">every story</span>, one order at a time.
+            </h1>
+            <p className="text-paper/65 text-sm max-w-md mb-8 leading-relaxed">
+              Get started with the easiest way to manage your tailoring business — orders, bookings, and
+              customer requests, all in one dashboard.
+            </p>
+            <div className="flex gap-3.5 flex-wrap">
+              <a
+                href="/"
+                className="inline-block px-6 py-3 rounded-full border border-paper/40 text-paper text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10"
+              >
+                Explore Collections
+              </a>
+              <a
+                href="/#book"
+                className="inline-block px-6 py-3 rounded-full bg-lilac-light text-ink text-sm font-medium shadow-lg shadow-lilac/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+              >
+                Book a Consultation
+              </a>
+            </div>
+          </div>
+
+          {/* RIGHT — FORM with Back button */}
+          <div className="flex flex-col justify-center order-1 md:order-2">
+            {/* Back button on form side */}
             <a
               href="/"
-              className="text-xs text-paper/60 hover:text-paper transition-colors flex items-center gap-1.5"
+              className="text-xs text-paper/60 hover:text-paper transition-colors flex items-center gap-1.5 mb-4"
             >
               <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" stroke="currentColor" fill="none">
                 <path d="M15 6l-6 6 6 6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               Back to storefront
             </a>
-          </div>
 
-          {/* LEFT — FORM */}
-          <div className="flex flex-col justify-center">
-            <p className="font-mono uppercase tracking-[0.14em] text-[11px] text-lilac-light mb-2">
-              Tailor dashboard
-            </p>
             <h2 className="font-display font-semibold text-2xl text-paper mb-1">Create new account.</h2>
             <p className="text-paper/50 text-xs mb-6">
               Already a member?{" "}
@@ -139,8 +176,17 @@ export default function SignUpPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-3.5">
+              {/* Full name */}
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40 pointer-events-none"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <span className="absolute left-11 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
                   Full name
                 </span>
                 <input
@@ -148,83 +194,166 @@ export default function SignUpPage() {
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder=""
-                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 px-4 text-sm text-paper outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
+                  placeholder="Ssebbale Isaac"
+                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 pl-11 pr-4 text-sm text-paper placeholder:text-paper/25 outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
                 />
-                <svg viewBox="0 0 24 24" className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40" stroke="currentColor" fill="none">
-                  <circle cx="12" cy="8" r="3.2" strokeWidth="1.6" />
-                  <path d="M5 20c1.5-4 4.2-6 7-6s5.5 2 7 6" strokeWidth="1.6" strokeLinecap="round" />
-                </svg>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
-                    Email
-                  </span>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 px-4 text-sm text-paper outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
-                  />
-                </div>
-
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
-                    Phone
-                  </span>
-                  <input
-                    type="tel"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 px-4 text-sm text-paper outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
-                  />
-                </div>
-              </div>
-
+              {/* Email - Independent line */}
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
-                  Password
+                <svg
+                  viewBox="0 0 24 24"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40 pointer-events-none"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                <span className="absolute left-11 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                  Email
                 </span>
                 <input
-                  type={showPassword ? "text" : "password"}
+                  type="email"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-lilac-light/50 pt-6 pb-2.5 px-4 pr-11 text-sm text-paper outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@ssebbalestitches.com"
+                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 pl-11 pr-4 text-sm text-paper placeholder:text-paper/25 outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((v) => !v)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-paper/50 hover:text-lilac-light transition-colors duration-200"
+              </div>
+
+              {/* Phone - Independent line */}
+              <div className="relative">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40 pointer-events-none"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor" fill="none">
-                    {showPassword ? (
-                      <>
-                        <path d="M3 3l18 18" strokeWidth="1.6" strokeLinecap="round" />
-                        <path
-                          d="M10.6 10.6a2.3 2.3 0 0 0 3.2 3.2M6.6 6.7C4.5 8 3 10 2 12c1.8 3.6 5.5 6.5 10 6.5 1.6 0 3.1-.4 4.4-1M17.4 17.3C19.4 16 21 14 22 12c-1.1-2.3-3-4.3-5.3-5.6a10.9 10.9 0 0 0-4.7-1.1c-.7 0-1.4.06-2 .2"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <path
-                          d="M2 12c1.8-3.6 5.5-6.5 10-6.5s8.2 2.9 10 6.5c-1.8 3.6-5.5 6.5-10 6.5S3.8 15.6 2 12Z"
-                          strokeWidth="1.6"
-                          strokeLinejoin="round"
-                        />
-                        <circle cx="12" cy="12" r="2.6" strokeWidth="1.6" />
-                      </>
-                    )}
+                  <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+                <span className="absolute left-11 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                  Phone
+                </span>
+                <input
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+256 700 000 000"
+                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 pl-11 pr-4 text-sm text-paper placeholder:text-paper/25 outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
+                />
+              </div>
+
+              {/* Password and Confirm Password - Same line */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {/* Password */}
+                <div className="relative">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40 pointer-events-none"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
                   </svg>
-                </button>
+                  <span className="absolute left-11 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                    Password
+                  </span>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-lilac-light/50 pt-6 pb-2.5 pl-11 pr-11 text-sm text-paper placeholder:text-paper/25 outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-paper/50 hover:text-lilac-light transition-colors duration-200"
+                  >
+                    <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor" fill="none">
+                      {showPassword ? (
+                        <>
+                          <path d="M3 3l18 18" strokeWidth="1.6" strokeLinecap="round" />
+                          <path
+                            d="M10.6 10.6a2.3 2.3 0 0 0 3.2 3.2M6.6 6.7C4.5 8 3 10 2 12c1.8 3.6 5.5 6.5 10 6.5 1.6 0 3.1-.4 4.4-1M17.4 17.3C19.4 16 21 14 22 12c-1.1-2.3-3-4.3-5.3-5.6a10.9 10.9 0 0 0-4.7-1.1c-.7 0-1.4.06-2 .2"
+                            strokeWidth="1.6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <path
+                            d="M2 12c1.8-3.6 5.5-6.5 10-6.5s8.2 2.9 10 6.5c-1.8 3.6-5.5 6.5-10 6.5S3.8 15.6 2 12Z"
+                            strokeWidth="1.6"
+                            strokeLinejoin="round"
+                          />
+                          <circle cx="12" cy="12" r="2.6" strokeWidth="1.6" />
+                        </>
+                      )}
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Confirm Password */}
+                <div className="relative">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40 pointer-events-none"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                  </svg>
+                  <span className="absolute left-11 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                    Confirm
+                  </span>
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className={`w-full rounded-xl bg-white/10 backdrop-blur-md border pt-6 pb-2.5 pl-11 pr-11 text-sm text-paper placeholder:text-paper/25 outline-none transition-all duration-300 focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)] ${
+                      confirmPassword && password !== confirmPassword
+                        ? "border-red-400/70 focus:border-red-400"
+                        : "border-lilac-light/50 focus:border-lilac-light"
+                    }`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((v) => !v)}
+                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-paper/50 hover:text-lilac-light transition-colors duration-200"
+                  >
+                    <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor" fill="none">
+                      {showConfirmPassword ? (
+                        <>
+                          <path d="M3 3l18 18" strokeWidth="1.6" strokeLinecap="round" />
+                          <path
+                            d="M10.6 10.6a2.3 2.3 0 0 0 3.2 3.2M6.6 6.7C4.5 8 3 10 2 12c1.8 3.6 5.5 6.5 10 6.5 1.6 0 3.1-.4 4.4-1M17.4 17.3C19.4 16 21 14 22 12c-1.1-2.3-3-4.3-5.3-5.6a10.9 10.9 0 0 0-4.7-1.1c-.7 0-1.4.06-2 .2"
+                            strokeWidth="1.6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <path
+                            d="M2 12c1.8-3.6 5.5-6.5 10-6.5s8.2 2.9 10 6.5c-1.8 3.6-5.5 6.5-10 6.5S3.8 15.6 2 12Z"
+                            strokeWidth="1.6"
+                            strokeLinejoin="round"
+                          />
+                          <circle cx="12" cy="12" r="2.6" strokeWidth="1.6" />
+                        </>
+                      )}
+                    </svg>
+                  </button>
+                </div>
               </div>
 
               <label className="flex items-start gap-2.5 cursor-pointer select-none pt-1">
@@ -255,42 +384,13 @@ export default function SignUpPage() {
 
               <button
                 type="submit"
-                disabled={!agreed}
+                disabled={!agreed || (password !== confirmPassword && confirmPassword.length > 0)}
                 className="relative overflow-hidden w-full rounded-xl bg-lilac-deep text-paper text-sm font-medium py-3 shadow-lg shadow-lilac-deep/40 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 group"
               >
                 <span className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
                 <span className="relative">Create Account</span>
               </button>
             </form>
-          </div>
-
-          {/* RIGHT — WELCOMING WORDS */}
-          <div className="flex flex-col justify-center md:pl-6">
-            <p className="font-mono uppercase tracking-[0.14em] text-xs text-lilac-light mb-4">
-              Join for free
-            </p>
-            <h1 className="font-display font-semibold text-[clamp(2rem,4vw,3.2rem)] leading-[1.1] text-paper mb-5">
-              Tailored to fit{" "}
-              <span className="italic font-normal text-lilac-light">every story</span>, one order at a time.
-            </h1>
-            <p className="text-paper/65 text-sm max-w-md mb-8 leading-relaxed">
-              Get started with the easiest way to manage your tailoring business — orders, bookings, and
-              customer requests, all in one dashboard.
-            </p>
-            <div className="flex gap-3.5 flex-wrap">
-              <a
-                href="/"
-                className="inline-block px-6 py-3 rounded-full border border-paper/40 text-paper text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10"
-              >
-                Explore Collections
-              </a>
-              <a
-                href="/#book"
-                className="inline-block px-6 py-3 rounded-full bg-lilac-light text-ink text-sm font-medium shadow-lg shadow-lilac/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
-              >
-                Book a Consultation
-              </a>
-            </div>
           </div>
         </div>
       </div>
