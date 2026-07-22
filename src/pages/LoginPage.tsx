@@ -77,22 +77,55 @@ export default function LoginPage() {
 
         {/* CONTENT */}
         <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 px-8 md:px-14 py-10 md:py-14">
-          {/* TOP BAR */}
+          {/* TOP BAR - Logo only on left */}
           <div className="md:col-span-2 flex items-center justify-between mb-2">
-            <img src={logo} alt="Ssebbale Stitches" className="h-10 w-auto rounded-full object-cover ring-2 ring-white/20" />
+            <a href="/" className="flex items-center group">
+              <img src={logo} alt="Ssebbale Stitches" className="h-14 w-auto rounded-full object-cover ring-2 ring-white/20 transition-transform duration-300 group-hover:scale-105" />
+            </a>
+          </div>
+
+          {/* LEFT — WELCOMING WORDS */}
+          <div className="flex flex-col justify-center md:pr-6 order-2 md:order-1">
+            <p className="font-mono uppercase tracking-[0.14em] text-xs text-lilac-light mb-4">
+              Welcome back
+            </p>
+            <h1 className="font-display font-semibold text-[clamp(2rem,4vw,3.2rem)] leading-[1.1] text-paper mb-5">
+              Tailored to fit{" "}
+              <span className="italic font-normal text-lilac-light">every story</span>, one order at a time.
+            </h1>
+            <p className="text-paper/65 text-sm max-w-md mb-8 leading-relaxed">
+              Sign in to manage orders, bookings, and your collections — everything tracked from first
+              sketch to final fitting.
+            </p>
+            <div className="flex gap-3.5 flex-wrap">
+              <a
+                href="/"
+                className="inline-block px-6 py-3 rounded-full border border-paper/40 text-paper text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10"
+              >
+                Explore Collections
+              </a>
+              <a
+                href="/#book"
+                className="inline-block px-6 py-3 rounded-full bg-lilac-light text-ink text-sm font-medium shadow-lg shadow-lilac/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+              >
+                Book a Consultation
+              </a>
+            </div>
+          </div>
+
+          {/* RIGHT — FORM with Back button */}
+          <div className="flex flex-col justify-center order-1 md:order-2">
+            {/* Back button on form side */}
             <a
               href="/"
-              className="text-xs text-paper/60 hover:text-paper transition-colors flex items-center gap-1.5"
+              className="text-xs text-paper/60 hover:text-paper transition-colors flex items-center gap-1.5 mb-4"
             >
               <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" stroke="currentColor" fill="none">
                 <path d="M15 6l-6 6 6 6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               Back to storefront
             </a>
-          </div>
 
-          {/* LEFT — FORM */}
-          <div className="flex flex-col justify-center">
             <p className="font-mono uppercase tracking-[0.14em] text-[11px] text-lilac-light mb-2">
               Tailor dashboard
             </p>
@@ -137,8 +170,17 @@ export default function LoginPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-3.5">
+              {/* Email with icon */}
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40 pointer-events-none"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                <span className="absolute left-11 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
                   Email
                 </span>
                 <input
@@ -146,12 +188,22 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 px-4 text-sm text-paper outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
+                  placeholder="you@ssebbalestitches.com"
+                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 pl-11 pr-4 text-sm text-paper placeholder:text-paper/25 outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
                 />
               </div>
 
+              {/* Password with icon */}
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40 pointer-events-none"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                </svg>
+                <span className="absolute left-11 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
                   Password
                 </span>
                 <input
@@ -159,7 +211,8 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 px-4 pr-11 text-sm text-paper outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
+                  placeholder="••••••••"
+                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 pl-11 pr-11 text-sm text-paper placeholder:text-paper/25 outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
                 />
                 <button
                   type="button"
@@ -221,35 +274,6 @@ export default function LoginPage() {
                 <span className="relative">Sign In</span>
               </button>
             </form>
-          </div>
-
-          {/* RIGHT — WELCOMING WORDS */}
-          <div className="flex flex-col justify-center md:pl-6">
-            <p className="font-mono uppercase tracking-[0.14em] text-xs text-lilac-light mb-4">
-              Welcome back
-            </p>
-            <h1 className="font-display font-semibold text-[clamp(2rem,4vw,3.2rem)] leading-[1.1] text-paper mb-5">
-              Tailored to fit{" "}
-              <span className="italic font-normal text-lilac-light">every story</span>, one order at a time.
-            </h1>
-            <p className="text-paper/65 text-sm max-w-md mb-8 leading-relaxed">
-              Sign in to manage orders, bookings, and your collections — everything tracked from first
-              sketch to final fitting.
-            </p>
-            <div className="flex gap-3.5 flex-wrap">
-              <a
-                href="/"
-                className="inline-block px-6 py-3 rounded-full border border-paper/40 text-paper text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10"
-              >
-                Explore Collections
-              </a>
-              <a
-                href="/#book"
-                className="inline-block px-6 py-3 rounded-full bg-lilac-light text-ink text-sm font-medium shadow-lg shadow-lilac/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
-              >
-                Book a Consultation
-              </a>
-            </div>
           </div>
         </div>
       </div>
