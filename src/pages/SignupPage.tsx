@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import logo from "../assets/images/Business-logo.jpeg";
-import signupImg from "../assets/images/Hero.jpeg";
+import bgImg from "../assets/images/Hero.jpeg";
 
 function useReveal<T extends HTMLElement>(startVisible = false) {
   const ref = useRef<T | null>(null);
@@ -26,18 +26,15 @@ function useReveal<T extends HTMLElement>(startVisible = false) {
   return { ref, visible };
 }
 
-export default function SignupPage() {
+export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [agreed, setAgreed] = useState(false);
 
-  const art = useReveal<HTMLDivElement>(true);
-  const form = useReveal<HTMLDivElement>(true);
+  const card = useReveal<HTMLDivElement>(true);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,117 +46,70 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-ink text-ink font-sans grid grid-cols-1 md:grid-cols-2 overflow-x-hidden">
-      {/* LEFT — IMAGE, CONTAINED, WITH BACKGROUND ILLUSTRATIONS, STICKY ON SCROLL */}
+    <div className="min-h-screen w-full bg-[#3a3a45] flex items-center justify-center p-4 md:p-8">
       <div
-        ref={art.ref}
-        className={`relative hidden md:flex items-center justify-center overflow-hidden md:sticky md:top-0 md:h-screen p-6 transition-all duration-700 ease-out ${
-          art.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+        ref={card.ref}
+        className={`relative w-full max-w-6xl rounded-[2.5rem] overflow-hidden shadow-2xl transition-all duration-700 ease-out ${
+          card.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
         }`}
       >
-        {/* ambient glow */}
-        <div className="pointer-events-none absolute -top-20 -left-16 w-96 h-96 rounded-full bg-lilac/25 blur-[110px]" />
-        <div className="pointer-events-none absolute -bottom-24 -right-10 w-80 h-80 rounded-full bg-lilac-deep/20 blur-[100px]" />
+        {/* BACKGROUND IMAGE + OVERLAY */}
+        <img src={bgImg} alt="" className="absolute inset-0 w-full h-full object-cover" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/75 to-ink/40" />
+        <div className="absolute inset-0 bg-ink/20" />
 
         {/* decorative illustrations */}
         <svg
-          className="pointer-events-none absolute -top-6 -left-6 w-40 h-40 opacity-30"
+          className="pointer-events-none absolute top-10 right-10 w-40 h-40 opacity-20 animate-[spin_40s_linear_infinite]"
           viewBox="0 0 160 160"
           aria-hidden="true"
         >
-          <circle cx="80" cy="80" r="70" stroke="#8a6fd1" strokeWidth="1" fill="none" strokeDasharray="4 6" />
-        </svg>
-
-        <svg
-          className="pointer-events-none absolute bottom-10 -right-8 w-32 h-32 opacity-25 animate-[spin_30s_linear_infinite]"
-          viewBox="0 0 120 120"
-          aria-hidden="true"
-        >
-          {Array.from({ length: 24 }).map((_, i) => {
-            const angle = (i / 24) * 2 * Math.PI;
-            const r1 = 55;
-            const r2 = i % 3 === 0 ? 40 : 48;
-            const x1 = 60 + r1 * Math.cos(angle);
-            const y1 = 60 + r1 * Math.sin(angle);
-            const x2 = 60 + r2 * Math.cos(angle);
-            const y2 = 60 + r2 * Math.sin(angle);
+          {Array.from({ length: 30 }).map((_, i) => {
+            const angle = (i / 30) * 2 * Math.PI;
+            const r1 = 72;
+            const r2 = i % 3 === 0 ? 52 : 62;
+            const x1 = 80 + r1 * Math.cos(angle);
+            const y1 = 80 + r1 * Math.sin(angle);
+            const x2 = 80 + r2 * Math.cos(angle);
+            const y2 = 80 + r2 * Math.sin(angle);
             return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#b8a8e8" strokeWidth="1.2" />;
           })}
         </svg>
+        <div className="pointer-events-none absolute bottom-0 right-0 w-96 h-96 rounded-full bg-lilac/20 blur-[110px]" />
 
-        <svg
-          className="pointer-events-none absolute top-16 right-10 w-16 h-16 opacity-40"
-          viewBox="0 0 40 40"
-          aria-hidden="true"
-        >
-          <path
-            d="M4 20c3-6 6-6 9 0s6 6 9 0 6-6 9 0"
-            stroke="#6a56b0"
-            strokeWidth="1.4"
-            strokeDasharray="2.2 2"
-            strokeLinecap="round"
-            fill="none"
-          />
-        </svg>
-
-        <span className="pointer-events-none absolute top-1/3 left-8 w-2 h-2 rounded-full bg-lilac-light/60" />
-        <span className="pointer-events-none absolute bottom-1/4 left-16 w-1.5 h-1.5 rounded-full bg-lilac/50" />
-        <span className="pointer-events-none absolute top-1/4 right-16 w-1.5 h-1.5 rounded-full bg-lilac-light/50" />
-
-        {/* image container */}
-        <div className="relative w-full max-w-[380px] rounded-[2rem] overflow-hidden border border-white/15 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.5)] animate-[float_8s_ease-in-out_infinite]">
-          <img
-            src={signupImg}
-            alt="Ssebbale Stitches workshop"
-            className="w-full h-[min(58vh,440px)] object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
-          <span className="absolute inset-x-4 top-4 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent" />
-
-          {/* floating glass quote */}
-          <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-white/15 backdrop-blur-2xl border border-white/25 shadow-xl px-4 py-3 animate-[float_7s_ease-in-out_infinite_0.4s]">
-            <span className="inline-flex items-center gap-2 mb-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-lilac-light animate-pulse" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-lilac-light">
-                Join the workshop
-              </span>
-            </span>
-            <p className="text-paper font-display text-sm leading-snug">
-              "Every order, stitched from start to pickup."
-            </p>
+        {/* CONTENT */}
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 px-8 md:px-14 py-10 md:py-12">
+          {/* TOP BAR */}
+          <div className="md:col-span-2 flex items-center justify-between mb-2">
+            <img src={logo} alt="Ssebbale Stitches" className="h-10 w-auto rounded-full object-cover ring-2 ring-white/20" />
+            <a
+              href="/"
+              className="text-xs text-paper/60 hover:text-paper transition-colors flex items-center gap-1.5"
+            >
+              <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" stroke="currentColor" fill="none">
+                <path d="M15 6l-6 6 6 6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Back to storefront
+            </a>
           </div>
-        </div>
-      </div>
 
-      {/* RIGHT — FORM */}
-      <div
-        ref={form.ref}
-        className={`relative flex flex-col items-center justify-center bg-paper px-[6vw] md:px-10 py-10 transition-all duration-700 ease-out ${
-          form.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-        }`}
-      >
-        <div className="pointer-events-none absolute -top-24 -right-24 w-72 h-72 rounded-full bg-lilac/15 blur-[100px]" />
-
-        <a href="/" className="relative flex items-center no-underline mb-5 w-fit">
-          <img src={logo} alt="Ssebbale Stitches" className="h-9 w-auto rounded-full object-cover" />
-        </a>
-
-        <div className="relative max-w-md w-full">
-          <p className="font-mono uppercase tracking-[0.14em] text-[11px] text-lilac-deep mb-2">Tailor dashboard</p>
-          <h1 className="font-display font-semibold text-[clamp(1.5rem,2.6vw,2rem)] leading-tight mb-1.5">
-            Create your account.
-          </h1>
-          <p className="text-ink/60 text-sm mb-4">
-            Set up your workshop profile and start managing orders online.
-          </p>
-
-          <div className="relative rounded-[1.5rem] bg-white/50 backdrop-blur-2xl border border-white/60 shadow-[0_25px_60px_-25px_rgba(106,86,176,0.35)] p-5 sm:p-6">
-            <span className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+          {/* LEFT — FORM */}
+          <div className="flex flex-col justify-center">
+            <p className="font-mono uppercase tracking-[0.14em] text-[11px] text-lilac-light mb-2">
+              Tailor dashboard
+            </p>
+            <h2 className="font-display font-semibold text-2xl text-paper mb-1">Create new account.</h2>
+            <p className="text-paper/50 text-xs mb-6">
+              Already a member?{" "}
+              <a href="/login" className="text-lilac-light hover:underline font-medium">
+                Log in
+              </a>
+            </p>
 
             <button
               type="button"
               onClick={handleGoogleSignup}
-              className="w-full flex items-center justify-center gap-2.5 rounded-xl bg-white border border-ink/10 py-2.5 text-sm font-medium text-ink/80 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:border-lilac-deep/40 mb-4"
+              className="w-full flex items-center justify-center gap-2.5 rounded-xl bg-paper/95 py-2.5 text-sm font-medium text-ink/80 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 mb-4"
             >
               <svg viewBox="0 0 48 48" className="w-4 h-4 shrink-0">
                 <path
@@ -183,160 +133,120 @@ export default function SignupPage() {
             </button>
 
             <div className="flex items-center gap-3 mb-4">
-              <span className="h-px flex-1 bg-ink/10" />
-              <span className="text-[11px] text-ink/40 whitespace-nowrap">or fill in your details</span>
-              <span className="h-px flex-1 bg-ink/10" />
+              <span className="h-px flex-1 bg-paper/15" />
+              <span className="text-[11px] text-paper/40 whitespace-nowrap">or fill in your details</span>
+              <span className="h-px flex-1 bg-paper/15" />
             </div>
 
-            <form onSubmit={handleSubmit}>
-              <label className="block mb-3.5">
-                <span className="block text-xs font-medium text-ink/70 mb-1">Full name</span>
+            <form onSubmit={handleSubmit} className="space-y-3.5">
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                  Full name
+                </span>
                 <input
                   type="text"
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Ssebbale Isaac"
-                  className="w-full rounded-xl bg-white/70 border border-white/80 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/35 outline-none transition-all duration-300 focus:border-lilac-deep focus:bg-white focus:shadow-[0_0_0_4px_rgba(106,86,176,0.12)]"
+                  placeholder=""
+                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 px-4 text-sm text-paper outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
                 />
-              </label>
-
-              <label className="block mb-3.5">
-                <span className="block text-xs font-medium text-ink/70 mb-1">Email address</span>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@ssebbalestitches.com"
-                  className="w-full rounded-xl bg-white/70 border border-white/80 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/35 outline-none transition-all duration-300 focus:border-lilac-deep focus:bg-white focus:shadow-[0_0_0_4px_rgba(106,86,176,0.12)]"
-                />
-              </label>
-
-              <label className="block mb-3.5">
-                <span className="block text-xs font-medium text-ink/70 mb-1">Phone number</span>
-                <input
-                  type="tel"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+256 700 000 000"
-                  className="w-full rounded-xl bg-white/70 border border-white/80 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/35 outline-none transition-all duration-300 focus:border-lilac-deep focus:bg-white focus:shadow-[0_0_0_4px_rgba(106,86,176,0.12)]"
-                />
-              </label>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-1">
-                <label className="block">
-                  <span className="block text-xs font-medium text-ink/70 mb-1">Password</span>
-                  <div className="relative">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      required
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="••••••••"
-                      className="w-full rounded-xl bg-white/70 border border-white/80 px-3.5 py-2.5 pr-10 text-sm text-ink placeholder:text-ink/35 outline-none transition-all duration-300 focus:border-lilac-deep focus:bg-white focus:shadow-[0_0_0_4px_rgba(106,86,176,0.12)]"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword((v) => !v)}
-                      aria-label={showPassword ? "Hide password" : "Show password"}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-ink/40 hover:text-lilac-deep transition-colors duration-200"
-                    >
-                      <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor" fill="none">
-                        {showPassword ? (
-                          <>
-                            <path d="M3 3l18 18" strokeWidth="1.6" strokeLinecap="round" />
-                            <path
-                              d="M10.6 10.6a2.3 2.3 0 0 0 3.2 3.2M6.6 6.7C4.5 8 3 10 2 12c1.8 3.6 5.5 6.5 10 6.5 1.6 0 3.1-.4 4.4-1M17.4 17.3C19.4 16 21 14 22 12c-1.1-2.3-3-4.3-5.3-5.6a10.9 10.9 0 0 0-4.7-1.1c-.7 0-1.4.06-2 .2"
-                              strokeWidth="1.6"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <path
-                              d="M2 12c1.8-3.6 5.5-6.5 10-6.5s8.2 2.9 10 6.5c-1.8 3.6-5.5 6.5-10 6.5S3.8 15.6 2 12Z"
-                              strokeWidth="1.6"
-                              strokeLinejoin="round"
-                            />
-                            <circle cx="12" cy="12" r="2.6" strokeWidth="1.6" />
-                          </>
-                        )}
-                      </svg>
-                    </button>
-                  </div>
-                </label>
-
-                <label className="block">
-                  <span className="block text-xs font-medium text-ink/70 mb-1">Confirm password</span>
-                  <div className="relative">
-                    <input
-                      type={showConfirm ? "text" : "password"}
-                      required
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="••••••••"
-                      className="w-full rounded-xl bg-white/70 border border-white/80 px-3.5 py-2.5 pr-10 text-sm text-ink placeholder:text-ink/35 outline-none transition-all duration-300 focus:border-lilac-deep focus:bg-white focus:shadow-[0_0_0_4px_rgba(106,86,176,0.12)]"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirm((v) => !v)}
-                      aria-label={showConfirm ? "Hide password" : "Show password"}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-ink/40 hover:text-lilac-deep transition-colors duration-200"
-                    >
-                      <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor" fill="none">
-                        {showConfirm ? (
-                          <>
-                            <path d="M3 3l18 18" strokeWidth="1.6" strokeLinecap="round" />
-                            <path
-                              d="M10.6 10.6a2.3 2.3 0 0 0 3.2 3.2M6.6 6.7C4.5 8 3 10 2 12c1.8 3.6 5.5 6.5 10 6.5 1.6 0 3.1-.4 4.4-1M17.4 17.3C19.4 16 21 14 22 12c-1.1-2.3-3-4.3-5.3-5.6a10.9 10.9 0 0 0-4.7-1.1c-.7 0-1.4.06-2 .2"
-                              strokeWidth="1.6"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <path
-                              d="M2 12c1.8-3.6 5.5-6.5 10-6.5s8.2 2.9 10 6.5c-1.8 3.6-5.5 6.5-10 6.5S3.8 15.6 2 12Z"
-                              strokeWidth="1.6"
-                              strokeLinejoin="round"
-                            />
-                            <circle cx="12" cy="12" r="2.6" strokeWidth="1.6" />
-                          </>
-                        )}
-                      </svg>
-                    </button>
-                  </div>
-                </label>
+                <svg viewBox="0 0 24 24" className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40" stroke="currentColor" fill="none">
+                  <circle cx="12" cy="8" r="3.2" strokeWidth="1.6" />
+                  <path d="M5 20c1.5-4 4.2-6 7-6s5.5 2 7 6" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
               </div>
 
-              {password && confirmPassword && password !== confirmPassword && (
-                <p className="text-xs text-red-500 mt-1.5 mb-1">Passwords don't match.</p>
-              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                    Email
+                  </span>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 px-4 text-sm text-paper outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
+                  />
+                </div>
 
-              <label className="flex items-start gap-2.5 cursor-pointer select-none mt-4 mb-5">
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                    Phone
+                  </span>
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 px-4 text-sm text-paper outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
+                  />
+                </div>
+              </div>
+
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                  Password
+                </span>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-lilac-light/50 pt-6 pb-2.5 px-4 pr-11 text-sm text-paper outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-paper/50 hover:text-lilac-light transition-colors duration-200"
+                >
+                  <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor" fill="none">
+                    {showPassword ? (
+                      <>
+                        <path d="M3 3l18 18" strokeWidth="1.6" strokeLinecap="round" />
+                        <path
+                          d="M10.6 10.6a2.3 2.3 0 0 0 3.2 3.2M6.6 6.7C4.5 8 3 10 2 12c1.8 3.6 5.5 6.5 10 6.5 1.6 0 3.1-.4 4.4-1M17.4 17.3C19.4 16 21 14 22 12c-1.1-2.3-3-4.3-5.3-5.6a10.9 10.9 0 0 0-4.7-1.1c-.7 0-1.4.06-2 .2"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <path
+                          d="M2 12c1.8-3.6 5.5-6.5 10-6.5s8.2 2.9 10 6.5c-1.8 3.6-5.5 6.5-10 6.5S3.8 15.6 2 12Z"
+                          strokeWidth="1.6"
+                          strokeLinejoin="round"
+                        />
+                        <circle cx="12" cy="12" r="2.6" strokeWidth="1.6" />
+                      </>
+                    )}
+                  </svg>
+                </button>
+              </div>
+
+              <label className="flex items-start gap-2.5 cursor-pointer select-none pt-1">
                 <span
                   onClick={() => setAgreed((v) => !v)}
                   className={`mt-0.5 w-4 h-4 rounded flex items-center justify-center border shrink-0 transition-all duration-200 ${
-                    agreed ? "bg-lilac-deep border-lilac-deep" : "bg-white/60 border-ink/25"
+                    agreed ? "bg-lilac-light border-lilac-light" : "bg-white/10 border-white/30"
                   }`}
                 >
                   {agreed && (
-                    <svg viewBox="0 0 24 24" className="w-3 h-3 text-paper" stroke="currentColor" fill="none">
+                    <svg viewBox="0 0 24 24" className="w-3 h-3 text-ink" stroke="currentColor" fill="none">
                       <path d="M5 12.5l4.5 4.5L19 7.5" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   )}
                 </span>
-                <span className="text-xs text-ink/65 leading-relaxed">
+                <span className="text-xs text-paper/60 leading-relaxed">
                   I agree to the{" "}
-                  <a href="#" className="text-lilac-deep hover:underline">
-                    Terms of Service
+                  <a href="#" className="text-lilac-light hover:underline">
+                    Terms
                   </a>{" "}
                   and{" "}
-                  <a href="#" className="text-lilac-deep hover:underline">
+                  <a href="#" className="text-lilac-light hover:underline">
                     Privacy Policy
                   </a>
                   .
@@ -346,7 +256,7 @@ export default function SignupPage() {
               <button
                 type="submit"
                 disabled={!agreed}
-                className="relative overflow-hidden w-full rounded-xl bg-lilac-deep text-paper text-sm font-medium py-3 shadow-lg shadow-lilac-deep/30 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-lilac-deep/40 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-lg group"
+                className="relative overflow-hidden w-full rounded-xl bg-lilac-deep text-paper text-sm font-medium py-3 shadow-lg shadow-lilac-deep/40 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 group"
               >
                 <span className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
                 <span className="relative">Create Account</span>
@@ -354,17 +264,34 @@ export default function SignupPage() {
             </form>
           </div>
 
-          <p className="text-center text-xs text-ink/50 mt-4">
-            Already have an account?{" "}
-            <a href="/login" className="text-lilac-deep hover:underline font-medium">
-              Sign in
-            </a>
-          </p>
-          <p className="text-center text-xs text-ink/50 mt-2">
-            <a href="/" className="text-lilac-deep hover:underline">
-              Back to the storefront
-            </a>
-          </p>
+          {/* RIGHT — WELCOMING WORDS */}
+          <div className="flex flex-col justify-center md:pl-6">
+            <p className="font-mono uppercase tracking-[0.14em] text-xs text-lilac-light mb-4">
+              Join for free
+            </p>
+            <h1 className="font-display font-semibold text-[clamp(2rem,4vw,3.2rem)] leading-[1.1] text-paper mb-5">
+              Tailored to fit{" "}
+              <span className="italic font-normal text-lilac-light">every story</span>, one order at a time.
+            </h1>
+            <p className="text-paper/65 text-sm max-w-md mb-8 leading-relaxed">
+              Get started with the easiest way to manage your tailoring business — orders, bookings, and
+              customer requests, all in one dashboard.
+            </p>
+            <div className="flex gap-3.5 flex-wrap">
+              <a
+                href="/"
+                className="inline-block px-6 py-3 rounded-full border border-paper/40 text-paper text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10"
+              >
+                Explore Collections
+              </a>
+              <a
+                href="/#book"
+                className="inline-block px-6 py-3 rounded-full bg-lilac-light text-ink text-sm font-medium shadow-lg shadow-lilac/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+              >
+                Book a Consultation
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
