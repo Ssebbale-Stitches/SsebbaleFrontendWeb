@@ -677,7 +677,7 @@ export default function LandingPage() {
                     <path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11Z" strokeWidth="1.5" strokeLinejoin="round" />
                     <circle cx="12" cy="10" r="2.3" strokeWidth="1.5" />
                   </svg>
-                  Kampala, Uganda
+                  California plaza Luwum st 2F 27
                 </li>
                 <li className="flex items-start gap-2.5">
                   <svg viewBox="0 0 24 24" className="w-4 h-4 mt-0.5 shrink-0 text-lilac-light" stroke="currentColor" fill="none">
