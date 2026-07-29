@@ -261,7 +261,7 @@ export default function LoginPage() {
                   </span>
                   <span className="text-xs text-paper/60 whitespace-nowrap">Remember me</span>
                 </label>
-                <a href="#" className="text-xs text-lilac-light hover:underline whitespace-nowrap">
+                <a href="/forgot-password" className="text-xs text-lilac-light hover:underline whitespace-nowrap">
                   Forgot password?
                 </a>
               </div>
