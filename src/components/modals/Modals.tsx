@@ -9,10 +9,12 @@ interface ModalsProps {
 
 export default function Modals({ activeModal, closeModal }: ModalsProps) {
   const handleLogout = () => {
-    // TODO: wire up real logout logic (clear auth, redirect, etc.)
-    console.log("Logging out...");
+    console.log("Logout confirmed!");
+    // TODO: real logout logic later (clear auth, redirect, etc.)
     closeModal();
   };
+
+  console.log("Modals rendered, activeModal =", activeModal);
 
   return (
     <>
