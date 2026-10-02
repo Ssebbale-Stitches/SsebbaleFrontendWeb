@@ -15,7 +15,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
-      <Route path="/otp-verification" element={<OtpVerificationPage />} />
+      <Route path="/verify-otp" element={<OtpVerificationPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
     </Routes>
   );

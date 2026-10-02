@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/images/Business-logo.jpeg";
 import bgImg from "../assets/images/Hero.jpeg";
+import { authApi } from "../lib/api";
 
 function useReveal<T extends HTMLElement>(startVisible = false) {
   const ref = useRef<T | null>(null);
@@ -27,6 +29,8 @@ function useReveal<T extends HTMLElement>(startVisible = false) {
 }
 
 export default function SignUpPage() {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [fullName, setFullName] = useState("");
@@ -35,16 +39,29 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const card = useReveal<HTMLDivElement>(true);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match.");
       return;
     }
-    // wire up to your account-creation logic
+    if (!agreed || loading) return;
+
+    setError("");
+    setLoading(true);
+    try {
+      await authApi.signup({ full_name: fullName, email, phone, password });
+      navigate("/verify-otp", { state: { email, purpose: "signup" } });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleSignup = () => {
@@ -175,6 +192,12 @@ export default function SignUpPage() {
               <span className="h-px flex-1 bg-paper/15" />
             </div>
 
+            {error && (
+              <div className="mb-4 rounded-xl bg-red-500/10 border border-red-400/30 px-4 py-2.5 text-xs text-red-300">
+                {error}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-3.5">
               {/* Full name */}
               <div className="relative">
@@ -263,6 +286,7 @@ export default function SignUpPage() {
                   <input
                     type={showPassword ? "text" : "password"}
                     required
+                    minLength={8}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
@@ -384,11 +408,11 @@ export default function SignUpPage() {
 
               <button
                 type="submit"
-                disabled={!agreed || (password !== confirmPassword && confirmPassword.length > 0)}
+                disabled={!agreed || (password !== confirmPassword && confirmPassword.length > 0) || loading}
                 className="relative overflow-hidden w-full rounded-xl bg-lilac-deep text-paper text-sm font-medium py-3 shadow-lg shadow-lilac-deep/40 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 group"
               >
                 <span className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
-                <span className="relative">Create Account</span>
+                <span className="relative">{loading ? "Creating account..." : "Create Account"}</span>
               </button>
             </form>
           </div>

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/images/Business-logo.jpeg";
 import bgImg from "../assets/images/Hero.jpeg";
+import { authApi, saveSession } from "../lib/api";
 
 function useReveal<T extends HTMLElement>(startVisible = false) {
   const ref = useRef<T | null>(null);
@@ -27,16 +29,31 @@ function useReveal<T extends HTMLElement>(startVisible = false) {
 }
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const card = useReveal<HTMLDivElement>(true);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // wire up to your auth logic
+    if (loading) return;
+    setError("");
+    setLoading(true);
+    try {
+      const res = await authApi.login({ email, password });
+      saveSession({ access: res.access, refresh: res.refresh }, res.user);
+      navigate(res.user.is_tailor ? "/dashboard" : "/");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleSignIn = () => {
@@ -169,6 +186,12 @@ export default function LoginPage() {
               <span className="h-px flex-1 bg-paper/15" />
             </div>
 
+            {error && (
+              <div className="mb-4 rounded-xl bg-red-500/10 border border-red-400/30 px-4 py-2.5 text-xs text-red-300">
+                {error}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-3.5">
               {/* Email with icon */}
               <div className="relative">
@@ -268,10 +291,11 @@ export default function LoginPage() {
 
               <button
                 type="submit"
-                className="relative overflow-hidden w-full rounded-xl bg-lilac-deep text-paper text-sm font-medium py-3 shadow-lg shadow-lilac-deep/40 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl group"
+                disabled={loading}
+                className="relative overflow-hidden w-full rounded-xl bg-lilac-deep text-paper text-sm font-medium py-3 shadow-lg shadow-lilac-deep/40 transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-60 group"
               >
                 <span className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
-                <span className="relative">Sign In</span>
+                <span className="relative">{loading ? "Signing in..." : "Sign In"}</span>
               </button>
             </form>
           </div>
