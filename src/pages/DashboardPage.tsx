@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
+import StatCard from "../components/StatCard";
+import Footer from "../components/Footer";
 
 type OrderStatus =
   | "Pending"
@@ -215,17 +217,36 @@ export default function DashboardPage() {
                 <p className="font-mono uppercase tracking-[0.14em] text-[10px] text-ink/35 mb-4">
                   Business at a glance
                 </p>
+
+                {/* STAT CARDS */}
                 <div className="grid grid-cols-2 gap-3 mb-5">
-                  <div className="rounded-xl bg-ink/[0.03] p-3.5">
-                    <p className="font-display font-semibold text-xl">18</p>
-                    <p className="text-[11px] text-ink/45">Active orders</p>
-                  </div>
-                  <div className="rounded-xl bg-lilac-deep text-paper p-3.5">
-                    <p className="font-display font-semibold text-xl">6.2M</p>
-                    <p className="text-[11px] text-paper/70">UGX this month</p>
-                  </div>
+                  <StatCard
+                    label="Total Bookings"
+                    value="128"
+                    sublabel="This month"
+                    variant="default"
+                  />
+                  <StatCard
+                    label="Active Orders"
+                    value="18"
+                    sublabel="In progress"
+                    variant="muted"
+                  />
+                  <StatCard
+                    label="Revenue"
+                    value="6.2M"
+                    sublabel="UGX this month"
+                    variant="primary"
+                  />
+                  <StatCard
+                    label="Suits on Hire"
+                    value="9 / 20"
+                    sublabel="Available"
+                    variant="default"
+                  />
                 </div>
 
+                {/* PROGRESS BARS */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-ink/50">Consultations</span>
@@ -297,6 +318,9 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
+
+          {/* FOOTER COMPONENT */}
+          <Footer />
         </div>
       </div>
     </div>
