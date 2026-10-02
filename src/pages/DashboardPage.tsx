@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
 import Footer from "../components/Footer";
+import Modals, {type ModalType} from "../components/modals/Modals";
 
 type OrderStatus =
   | "Pending"
@@ -88,6 +89,10 @@ export default function DashboardPage() {
   const [activeNav, setActiveNav] = useState("Overview");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  //  Modal state
+  const [activeModal, setActiveModal] = useState<ModalType>(null);
+  const closeModal = () => setActiveModal(null);
+
   return (
     <div className="min-h-screen w-full bg-[#f3f1fa] flex relative">
       {/* AMBIENT GRADIENT BLOBS */}
@@ -106,6 +111,7 @@ export default function DashboardPage() {
         setActiveNav={setActiveNav}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
+        onLogout={() => setActiveModal("confirm-logout")}
       />
 
       {/* MAIN CONTENT */}
@@ -323,6 +329,9 @@ export default function DashboardPage() {
           <Footer />
         </div>
       </div>
+
+       {/* Modals (rendered once, manages all modal types) */}
+      <Modals activeModal={activeModal} closeModal={closeModal} />
     </div>
   );
 }

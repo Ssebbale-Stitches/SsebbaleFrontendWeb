@@ -66,13 +66,15 @@ interface SidebarProps {
   setActiveNav: (label: string) => void;
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
+  onLogout: () => void;
 }
 
 export default function Sidebar({ 
   activeNav, 
   setActiveNav, 
   sidebarOpen, 
-  setSidebarOpen 
+  setSidebarOpen,
+  onLogout,
 }: SidebarProps) {
   return (
     <aside
@@ -121,7 +123,7 @@ export default function Sidebar({
         </button>
 
         {/* LOGOUT BUTTON */}
-        <button className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-ink/55 hover:text-red-500 hover:bg-red-50 transition-colors duration-200">
+        <button  onClick={onLogout} className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-ink/55 hover:text-red-500 hover:bg-red-50 transition-colors duration-200">
           <svg viewBox="0 0 24 24" className="w-4.5 h-4.5 shrink-0" stroke="currentColor" fill="none">
             <path
               d="M15 16l4-4m0 0l-4-4m4 4H9M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4"
