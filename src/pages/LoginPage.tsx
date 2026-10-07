@@ -101,7 +101,7 @@ export default function LoginPage() {
             </a>
           </div>
 
-          {/* LEFT — WELCOMING WORDS */}
+          {/* LEFT - WELCOMING WORDS */}
           <div className="flex flex-col justify-center md:pr-6 order-2 md:order-1">
             <p className="font-mono uppercase tracking-[0.14em] text-xs text-lilac-light mb-4">
               Welcome back
@@ -111,7 +111,7 @@ export default function LoginPage() {
               <span className="italic font-normal text-lilac-light">every story</span>, one order at a time.
             </h1>
             <p className="text-paper/65 text-sm max-w-md mb-8 leading-relaxed">
-              Sign in to manage orders, bookings, and your collections — everything tracked from first
+              Sign in to manage orders, bookings, and your collections everything tracked from first
               sketch to final fitting.
             </p>
             <div className="flex gap-3.5 flex-wrap">
@@ -130,7 +130,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* RIGHT — FORM with Back button */}
+          {/* RIGHT - FORM with Back button */}
           <div className="flex flex-col justify-center order-1 md:order-2">
             {/* Back button on form side */}
             <a
@@ -193,17 +193,17 @@ export default function LoginPage() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-3.5">
-              {/* Email with icon */}
+              {/* Email */}
               <div className="relative">
                 <svg
                   viewBox="0 0 24 24"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40 pointer-events-none"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40 pointer-events-none z-10"
                   fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
-                <span className="absolute left-11 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                <span className="absolute left-11 top-2.5 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none z-10">
                   Email
                 </span>
                 <input
@@ -212,21 +212,21 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@ssebbalestitches.com"
-                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 pl-11 pr-4 text-sm text-paper placeholder:text-paper/25 outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
+                  className="relative w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-7 pb-1.5 pl-11 pr-4 text-sm text-paper placeholder:text-paper/25 outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
                 />
               </div>
 
-              {/* Password with icon */}
+              {/* Password */}
               <div className="relative">
                 <svg
                   viewBox="0 0 24 24"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40 pointer-events-none"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/40 pointer-events-none z-10"
                   fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
                 </svg>
-                <span className="absolute left-11 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none">
+                <span className="absolute left-11 top-2.5 text-[10px] uppercase tracking-wide text-paper/40 pointer-events-none z-10">
                   Password
                 </span>
                 <input
@@ -235,13 +235,13 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-6 pb-2.5 pl-11 pr-11 text-sm text-paper placeholder:text-paper/25 outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
+                  className="relative w-full rounded-xl bg-white/10 backdrop-blur-md border border-white/15 pt-7 pb-1.5 pl-11 pr-11 text-sm text-paper placeholder:text-paper/25 outline-none transition-all duration-300 focus:border-lilac-light focus:bg-white/15 focus:shadow-[0_0_0_4px_rgba(184,168,232,0.15)]"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-paper/50 hover:text-lilac-light transition-colors duration-200"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-paper/50 hover:text-lilac-light transition-colors duration-200 z-10"
                 >
                   <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor" fill="none">
                     {showPassword ? (

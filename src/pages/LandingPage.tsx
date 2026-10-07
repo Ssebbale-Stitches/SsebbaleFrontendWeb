@@ -318,7 +318,7 @@ export default function LandingPage() {
           </h1>
           <p className="text-base leading-relaxed max-w-[46ch] my-6 text-ink/70">
             Browse collections, request custom pieces from your own inspiration, hire a suit, or book a
-            consultation — all tracked from first sketch to final fitting.
+            consultation all tracked from first sketch to final fitting.
           </p>
           <div className="flex gap-3.5 flex-wrap">
             <a className={btnPrimary} href="#book">
@@ -528,7 +528,7 @@ export default function LandingPage() {
               Built for the tailor's bench, not a spreadsheet.
             </h2>
             <p className="text-paper/75 my-5 max-w-[46ch] leading-relaxed">
-              Manage products, bookings, suit hire and customer orders from one dashboard — built for daily use,
+              Manage products, bookings, suit hire and customer orders from one dashboard built for daily use,
               not quarterly reports.
             </p>
             <a className={btnPrimary} href="/login">
@@ -604,7 +604,7 @@ export default function LandingPage() {
                 <img src={logo} alt="Ssebbale Stitches" className="h-12 w-auto rounded-full object-cover ring-2 ring-white/20" />
               </a>
               <p className="text-sm text-paper/60 leading-relaxed max-w-[32ch] mb-5">
-                Bespoke tailoring for men, women and children — from first sketch to final fitting, all in one
+                Bespoke tailoring for men, women and children from first sketch to final fitting, all in one
                 workshop.
               </p>
               <div className="flex flex-wrap gap-3">

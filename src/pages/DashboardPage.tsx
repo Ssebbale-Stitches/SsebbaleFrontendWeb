@@ -131,12 +131,8 @@ export default function DashboardPage() {
                   </p>
                   <h1 className="font-display font-semibold text-xl">Good afternoon, Isaac.</h1>
                 </div>
-                <button className="flex items-center gap-1.5 rounded-full border border-ink/10 bg-white px-3.5 py-2 text-xs font-medium text-ink/60 hover:border-ink/20 transition-colors">
-                  Today
-                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" stroke="currentColor" fill="none">
-                    <path d="M6 9l6 6 6-6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
+                
+                
               </div>
 
               {/* TOP CUSTOMER CARDS */}
