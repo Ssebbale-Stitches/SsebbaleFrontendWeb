@@ -163,12 +163,15 @@ export default function Sidebar({
         <p className="text-[11px] text-paper/70 mb-3 relative leading-relaxed">
           Reach the Ssebbale Stitches team anytime.
         </p>
-        <a
-          href="/#book"
-          className="relative inline-block w-full text-center rounded-lg bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/20 px-3 py-2 text-xs font-medium transition-colors duration-200"
-        >
-          Contact us
-        </a>
+        <button
+  onClick={() => {
+    navigate("/contact");
+    setSidebarOpen(false);
+  }}
+  className="relative w-full text-center rounded-lg bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/20 px-3 py-2 text-xs font-medium transition-colors duration-200"
+>
+  Contact us
+</button>
       </div>
     </aside>
   );
