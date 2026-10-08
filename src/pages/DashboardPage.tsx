@@ -228,7 +228,7 @@ function RevenueLineChart() {
   );
 }
 
-// ── DONUT CHART (SVG) ─────────────────────────────────────
+// ── DONUT CHART (SVG, glass + shadowed borders) ───────────
 function OrdersDonutChart() {
   const total = ORDER_BREAKDOWN.reduce((sum, d) => sum + d.value, 0);
   const size = 160;
@@ -238,10 +238,38 @@ function OrdersDonutChart() {
   const cy = size / 2;
   const circumference = 2 * Math.PI * radius;
 
-  let offset = 0;
+  // 👇 Pure computation using reduce — no external mutation
+  const segments = ORDER_BREAKDOWN.reduce<
+    Array<{
+      label: string;
+      value: number;
+      color: string;
+      dash: number;
+      gap: number;
+      startOffset: number;
+      pct: number;
+    }>
+  >((acc, slice) => {
+    const fraction = slice.value / total;
+    const dash = fraction * circumference;
+    const gap = circumference - dash;
+
+    // Find how much has been consumed so far
+    const consumed = acc.reduce((sum, s) => sum + s.dash, 0);
+    const startOffset = -consumed;
+
+    acc.push({
+      ...slice,
+      dash,
+      gap,
+      startOffset,
+      pct: Math.round(fraction * 100),
+    });
+    return acc;
+  }, []);
 
   return (
-    <div className="rounded-2xl bg-white border border-ink/8 p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+    <div className="rounded-2xl bg-white/60 backdrop-blur-xl border border-white/50 p-5 shadow-[0_8px_32px_-12px_rgba(106,86,176,0.25)]">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div>
@@ -259,9 +287,40 @@ function OrdersDonutChart() {
         <div className="relative shrink-0">
           <svg
             viewBox={`0 0 ${size} ${size}`}
-            className="w-40 h-40 -rotate-90"
+            className="w-40 h-40 -rotate-90 overflow-visible"
           >
-            {/* Background circle */}
+            <defs>
+              <filter id="donutShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+                <feOffset dx="0" dy="3" result="offsetblur" />
+                <feComponentTransfer>
+                  <feFuncA type="linear" slope="0.25" />
+                </feComponentTransfer>
+                <feMerge>
+                  <feMergeNode />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+
+              <radialGradient id="donutGloss" cx="50%" cy="30%" r="70%">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+
+            {/* Outer glow */}
+            <circle
+              cx={cx}
+              cy={cy}
+              r={radius}
+              fill="none"
+              stroke="#6a56b0"
+              strokeOpacity="0.15"
+              strokeWidth={stroke + 6}
+              style={{ filter: "blur(6px)" }}
+            />
+
+            {/* Background track */}
             <circle
               cx={cx}
               cy={cy}
@@ -273,27 +332,43 @@ function OrdersDonutChart() {
             />
 
             {/* Segments */}
-            {ORDER_BREAKDOWN.map((slice) => {
-              const fraction = slice.value / total;
-              const dash = fraction * circumference;
-              const gap = circumference - dash;
-              const el = (
+            {segments.map((seg) => (
+              <g key={seg.label} filter="url(#donutShadow)">
                 <circle
-                  key={slice.label}
                   cx={cx}
                   cy={cy}
                   r={radius}
                   fill="none"
-                  stroke={slice.color}
+                  stroke={seg.color}
                   strokeWidth={stroke}
-                  strokeDasharray={`${dash} ${gap}`}
-                  strokeDashoffset={-offset}
+                  strokeDasharray={`${seg.dash} ${seg.gap}`}
+                  strokeDashoffset={seg.startOffset}
                   strokeLinecap="butt"
                 />
-              );
-              offset += dash;
-              return el;
-            })}
+                {/* White divider */}
+                <circle
+                  cx={cx}
+                  cy={cy}
+                  r={radius}
+                  fill="none"
+                  stroke="#ffffff"
+                  strokeWidth="2"
+                  strokeDasharray={`2 ${circumference - 2}`}
+                  strokeDashoffset={seg.startOffset}
+                  strokeLinecap="butt"
+                />
+              </g>
+            ))}
+
+            {/* Gloss overlay */}
+            <circle
+              cx={cx}
+              cy={cy}
+              r={radius}
+              fill="none"
+              stroke="url(#donutGloss)"
+              strokeWidth={stroke}
+            />
           </svg>
 
           {/* Center label */}
@@ -309,33 +384,33 @@ function OrdersDonutChart() {
 
         {/* Legend */}
         <div className="flex-1 space-y-2.5 min-w-0">
-          {ORDER_BREAKDOWN.map((slice) => {
-            const pct = Math.round((slice.value / total) * 100);
-            return (
-              <div
-                key={slice.label}
-                className="flex items-center justify-between gap-2"
-              >
-                <div className="flex items-center gap-2 min-w-0">
-                  <span
-                    className="w-2.5 h-2.5 rounded-full shrink-0"
-                    style={{ backgroundColor: slice.color }}
-                  />
-                  <span className="text-xs text-ink/65 truncate">
-                    {slice.label}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs font-medium text-ink">
-                    {slice.value}
-                  </span>
-                  <span className="text-[10px] text-ink/40 w-8 text-right">
-                    {pct}%
-                  </span>
-                </div>
+          {segments.map((slice) => (
+            <div
+              key={slice.label}
+              className="flex items-center justify-between gap-2"
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <span
+                  className="w-2.5 h-2.5 rounded-full shrink-0"
+                  style={{
+                    backgroundColor: slice.color,
+                    boxShadow: `0 0 0 3px ${slice.color}22`,
+                  }}
+                />
+                <span className="text-xs text-ink/65 truncate">
+                  {slice.label}
+                </span>
               </div>
-            );
-          })}
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-xs font-medium text-ink">
+                  {slice.value}
+                </span>
+                <span className="text-[10px] text-ink/40 w-8 text-right">
+                  {slice.pct}%
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
