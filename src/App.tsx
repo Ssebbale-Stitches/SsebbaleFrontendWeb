@@ -11,6 +11,7 @@ import BookingsPage from "./pages/BookingsPage";
 import SuitHirePage from "./pages/SuitHirePage";
 import ProductsPage from "./pages/ProductsPage";
 import CustomersPage from "./pages/CustomersPage";
+import SupportPage from "./pages/SupportPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <Route path="/suit-hire" element={<SuitHirePage />} />
       <Route path="/products" element={<ProductsPage />} />
       <Route path="/customers" element={<CustomersPage />} />
+      <Route path="/support" element={<SupportPage />} />
     </Routes>
   );
 }

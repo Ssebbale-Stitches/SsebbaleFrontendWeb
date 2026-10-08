@@ -119,17 +119,27 @@ export default function Sidebar({
       </nav>
 
       <div className="px-3 pb-4 space-y-1">
-        <button className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-ink/55 hover:text-ink hover:bg-ink/[0.04] transition-colors duration-200">
-          <svg viewBox="0 0 24 24" className="w-4.5 h-4.5 shrink-0" stroke="currentColor" fill="none">
-            <path
-              d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          Support
-        </button>
+       <button
+  onClick={() => {
+    navigate("/support");
+    setSidebarOpen(false);
+  }}
+  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors duration-200 ${
+    location.pathname === "/support"
+      ? "bg-lilac-deep text-paper"
+      : "text-ink/55 hover:text-ink hover:bg-ink/[0.04]"
+  }`}
+>
+  <svg viewBox="0 0 24 24" className="w-4.5 h-4.5 shrink-0" stroke="currentColor" fill="none">
+    <path
+      d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+  Support
+</button>
 
         <button
           onClick={onLogout}
