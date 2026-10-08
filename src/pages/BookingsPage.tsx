@@ -119,6 +119,7 @@ export default function BookingsPage() {
     if (label === "Overview") navigate("/dashboard");
     if (label === "Orders") navigate("/orders");
     if (label === "Bookings") navigate("/bookings");
+    if (label === "Suit Hire") navigate("/suit-hire");
   };
 
   return (

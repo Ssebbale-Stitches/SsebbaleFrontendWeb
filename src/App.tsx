@@ -8,6 +8,7 @@ import OtpVerificationPage from "./pages/OtpVerificationPage";
 import DashboardPage from "./pages/DashboardPage";
 import OrdersPage from "./pages/OrdersPage";
 import BookingsPage from "./pages/BookingsPage";
+import SuitHirePage from "./pages/SuitHirePage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/orders" element={<OrdersPage />} />
       <Route path="/bookings" element={<BookingsPage />} />
+     <Route path="/suit-hire" element={<SuitHirePage />} />
     </Routes>
   );
 }

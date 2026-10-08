@@ -6,62 +6,55 @@ import StatCard from "../components/StatCard";
 import Footer from "../components/Footer";
 import Modals, { type ModalType } from "../components/modals/Modals";
 
-type OrderStatus =
-  | "Pending"
-  | "Confirmed"
-  | "In Progress"
-  | "Ready for Fitting"
-  | "Ready for Pickup"
-  | "Completed";
+type SuitStatus = "Available" | "On Hire" | "Reserved" | "Maintenance";
+type SuitSize = "S" | "M" | "L" | "XL" | "XXL";
 
-interface Order {
+interface Suit {
   id: string;
-  customer: string;
-  item: string;
-  status: OrderStatus;
-  amount: string;
-  due: string;
-  paid: boolean;
+  name: string;
+  size: SuitSize;
+  color: string;
+  status: SuitStatus;
+  rate: string;
+  rentedTo?: string;
+  dueBack?: string;
 }
 
-const STATUS_STYLES: Record<OrderStatus, string> = {
-  Pending: "bg-ink/5 text-ink/60",
-  Confirmed: "bg-lilac/15 text-lilac-deep",
-  "In Progress": "bg-amber-50 text-amber-700",
-  "Ready for Fitting": "bg-sky-50 text-sky-700",
-  "Ready for Pickup": "bg-lilac-deep/10 text-lilac-deep",
-  Completed: "bg-emerald-50 text-emerald-700",
+const STATUS_STYLES: Record<SuitStatus, string> = {
+  Available: "bg-emerald-50 text-emerald-700",
+  "On Hire": "bg-lilac-deep/10 text-lilac-deep",
+  Reserved: "bg-sky-50 text-sky-700",
+  Maintenance: "bg-amber-50 text-amber-700",
 };
 
-const FILTERS: Array<{ label: string; value: OrderStatus | "All" }> = [
+const FILTERS: Array<{ label: string; value: SuitStatus | "All" }> = [
   { label: "All", value: "All" },
-  { label: "Pending", value: "Pending" },
-  { label: "In Progress", value: "In Progress" },
-  { label: "Ready for Fitting", value: "Ready for Fitting" },
-  { label: "Ready for Pickup", value: "Ready for Pickup" },
-  { label: "Completed", value: "Completed" },
+  { label: "Available", value: "Available" },
+  { label: "On Hire", value: "On Hire" },
+  { label: "Reserved", value: "Reserved" },
+  { label: "Maintenance", value: "Maintenance" },
 ];
 
-const ORDERS: Order[] = [
-  { id: "#SS-1042", customer: "Grace Nakato", item: "Wedding gown — bespoke", status: "In Progress", amount: "UGX 850,000", due: "Aug 4", paid: false },
-  { id: "#SS-1041", customer: "Brian Kato", item: "3-piece suit", status: "Ready for Fitting", amount: "UGX 620,000", due: "Aug 2", paid: true },
-  { id: "#SS-1040", customer: "Esther Namono", item: "Kids occasion set (x2)", status: "Confirmed", amount: "UGX 210,000", due: "Aug 6", paid: false },
-  { id: "#SS-1039", customer: "Daniel Mugisha", item: "Suit hire — Navy, size 40", status: "Ready for Pickup", amount: "UGX 95,000", due: "Jul 31", paid: true },
-  { id: "#SS-1038", customer: "Patricia Auma", item: "Corset dress", status: "Pending", amount: "UGX 340,000", due: "Aug 9", paid: false },
-  { id: "#SS-1037", customer: "Joseph Ochieng", item: "Kanzu — custom", status: "Completed", amount: "UGX 280,000", due: "Jul 28", paid: true },
-  { id: "#SS-1036", customer: "Sandra Akello", item: "Bridesmaid dresses (x4)", status: "In Progress", amount: "UGX 1,200,000", due: "Aug 12", paid: false },
+const SUITS: Suit[] = [
+  { id: "#SH-001", name: "Classic Navy Suit", size: "L", color: "Navy", status: "On Hire", rate: "UGX 95,000 / day", rentedTo: "Daniel Mugisha", dueBack: "Jul 31" },
+  { id: "#SH-002", name: "Charcoal 3-Piece", size: "M", color: "Charcoal", status: "Available", rate: "UGX 120,000 / day" },
+  { id: "#SH-003", name: "Black Tuxedo", size: "L", color: "Black", status: "Reserved", rate: "UGX 150,000 / day", rentedTo: "Joseph Ochieng", dueBack: "Aug 6" },
+  { id: "#SH-004", name: "Beige Linen Suit", size: "M", color: "Beige", status: "Available", rate: "UGX 85,000 / day" },
+  { id: "#SH-005", name: "Burgundy Velvet", size: "S", color: "Burgundy", status: "Maintenance", rate: "UGX 130,000 / day" },
+  { id: "#SH-006", name: "Grey Slim Fit", size: "XL", color: "Grey", status: "On Hire", rate: "UGX 100,000 / day", rentedTo: "Brian Kato", dueBack: "Aug 2" },
+  { id: "#SH-007", name: "Ivory Wedding Suit", size: "L", color: "Ivory", status: "Reserved", rate: "UGX 180,000 / day", rentedTo: "Grace Nakato", dueBack: "Aug 4" },
 ];
 
-const UPCOMING_DEADLINES = [
-  { customer: "Daniel Mugisha", item: "Suit hire pickup", when: "Today" },
-  { customer: "Brian Kato", item: "Fitting session", when: "Tomorrow" },
-  { customer: "Grace Nakato", item: "Wedding gown due", when: "Aug 4" },
+const RETURNS_DUE = [
+  { customer: "Daniel Mugisha", suit: "Classic Navy Suit", when: "Today" },
+  { customer: "Brian Kato", suit: "Grey Slim Fit", when: "Aug 2" },
+  { customer: "Grace Nakato", suit: "Ivory Wedding Suit", when: "Aug 4" },
 ];
 
-export default function OrdersPage() {
-  const [activeNav, setActiveNav] = useState("Orders");
+export default function SuitHirePage() {
+  const [activeNav, setActiveNav] = useState("Suit Hire");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState<OrderStatus | "All">("All");
+  const [activeFilter, setActiveFilter] = useState<SuitStatus | "All">("All");
 
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const closeModal = () => setActiveModal(null);
@@ -76,10 +69,10 @@ export default function OrdersPage() {
     if (label === "Suit Hire") navigate("/suit-hire");
   };
 
-  const filteredOrders =
+  const filteredSuits =
     activeFilter === "All"
-      ? ORDERS
-      : ORDERS.filter((o) => o.status === activeFilter);
+      ? SUITS
+      : SUITS.filter((s) => s.status === activeFilter);
 
   return (
     <div className="min-h-screen w-full bg-[#f3f1fa] flex relative">
@@ -116,10 +109,10 @@ export default function OrdersPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-mono uppercase tracking-[0.14em] text-[10px] text-lilac-deep mb-1">
-                    Orders
+                    Suit Hire
                   </p>
                   <h1 className="font-display font-semibold text-xl">
-                    Track every order.
+                    Rentals in motion.
                   </h1>
                 </div>
                 <button className="flex items-center gap-1.5 rounded-full border border-ink/10 bg-white px-3.5 py-2 text-xs font-medium text-ink/60 hover:border-ink/20 transition-colors">
@@ -143,21 +136,21 @@ export default function OrdersPage() {
               {/* TOP STAT CARDS */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <StatCard
-                  label="Active Orders"
-                  value="18"
-                  sublabel="In progress"
+                  label="Available"
+                  value="12"
+                  sublabel="Ready to rent"
                   variant="primary"
                 />
                 <StatCard
-                  label="Awaiting Pickup"
-                  value="4"
-                  sublabel="Ready now"
+                  label="On Hire"
+                  value="9"
+                  sublabel="Currently rented"
                   variant="default"
                 />
                 <StatCard
-                  label="Overdue"
-                  value="1"
-                  sublabel="Past due date"
+                  label="Returns Due"
+                  value="3"
+                  sublabel="Next 7 days"
                   variant="muted"
                 />
               </div>
@@ -179,14 +172,14 @@ export default function OrdersPage() {
                 ))}
               </div>
 
-              {/* ORDERS TABLE */}
+              {/* SUITS TABLE */}
               <div className="rounded-2xl bg-white border border-ink/8 overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-ink/8">
                   <h2 className="font-display font-semibold text-base">
-                    All orders
+                    Suit inventory
                   </h2>
                   <button className="text-xs text-lilac-deep font-medium hover:underline">
-                    Export CSV
+                    Manage rates
                   </button>
                 </div>
 
@@ -194,68 +187,79 @@ export default function OrdersPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="text-left text-ink/40 text-[11px] uppercase tracking-wide">
-                        <th className="font-medium px-5 py-3">Order</th>
+                        <th className="font-medium px-5 py-3">Suit</th>
                         <th className="font-medium px-5 py-3 hidden sm:table-cell">
-                          Amount
+                          Size
                         </th>
                         <th className="font-medium px-5 py-3 hidden md:table-cell">
-                          Due
+                          Rate
+                        </th>
+                        <th className="font-medium px-5 py-3 hidden lg:table-cell">
+                          Rented To
                         </th>
                         <th className="font-medium px-5 py-3">Status</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredOrders.length === 0 ? (
+                      {filteredSuits.length === 0 ? (
                         <tr>
                           <td
-                            colSpan={4}
+                            colSpan={5}
                             className="px-5 py-10 text-center text-xs text-ink/45"
                           >
-                            No orders match this filter.
+                            No suits match this filter.
                           </td>
                         </tr>
                       ) : (
-                        filteredOrders.map((order) => (
+                        filteredSuits.map((suit) => (
                           <tr
-                            key={order.id}
+                            key={suit.id}
                             className="border-t border-ink/5 hover:bg-ink/[0.015] transition-colors"
                           >
                             <td className="px-5 py-3.5">
                               <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-lilac/15 text-lilac-deep flex items-center justify-center font-display font-semibold text-[11px] shrink-0">
-                                  {order.customer
+                                  {suit.name
                                     .split(" ")
                                     .map((n) => n[0])
-                                    .join("")}
+                                    .join("")
+                                    .slice(0, 2)}
                                 </div>
                                 <div className="min-w-0">
                                   <p className="font-medium truncate">
-                                    {order.customer}
+                                    {suit.name}
                                   </p>
                                   <p className="text-[11px] text-ink/45 truncate">
-                                    {order.id} · {order.item}
+                                    {suit.id} · {suit.color}
                                   </p>
                                 </div>
                               </div>
                             </td>
                             <td className="px-5 py-3.5 hidden sm:table-cell text-ink/60 whitespace-nowrap">
-                              <div>
-                                <p>{order.amount}</p>
-                                <p className="text-[10px] text-ink/40">
-                                  {order.paid ? "Paid" : "Unpaid"}
-                                </p>
-                              </div>
+                              {suit.size}
                             </td>
                             <td className="px-5 py-3.5 hidden md:table-cell text-ink/60 whitespace-nowrap">
-                              {order.due}
+                              {suit.rate}
+                            </td>
+                            <td className="px-5 py-3.5 hidden lg:table-cell text-ink/60 whitespace-nowrap">
+                              {suit.rentedTo ? (
+                                <div>
+                                  <p>{suit.rentedTo}</p>
+                                  <p className="text-[10px] text-ink/40">
+                                    Due {suit.dueBack}
+                                  </p>
+                                </div>
+                              ) : (
+                                <span className="text-ink/30">—</span>
+                              )}
                             </td>
                             <td className="px-5 py-3.5">
                               <span
                                 className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-medium whitespace-nowrap ${
-                                  STATUS_STYLES[order.status]
+                                  STATUS_STYLES[suit.status]
                                 }`}
                               >
-                                {order.status}
+                                {suit.status}
                               </span>
                             </td>
                           </tr>
@@ -267,7 +271,7 @@ export default function OrdersPage() {
 
                 <div className="px-5 py-3.5 border-t border-ink/8 text-center">
                   <button className="text-xs text-ink/45 hover:text-lilac-deep transition-colors">
-                    Load more orders
+                    Load more suits
                   </button>
                 </div>
               </div>
@@ -275,29 +279,29 @@ export default function OrdersPage() {
 
             {/* RIGHT RAIL */}
             <div className="space-y-5">
-              {/* UPCOMING DEADLINES */}
+              {/* RETURNS DUE */}
               <div className="rounded-2xl bg-white border border-ink/8 p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
                 <div className="flex items-center justify-between mb-4">
                   <p className="font-mono uppercase tracking-[0.14em] text-[10px] text-ink/35">
-                    Upcoming deadlines
+                    Returns due
                   </p>
                   <span className="w-1.5 h-1.5 rounded-full bg-lilac-deep animate-pulse" />
                 </div>
                 <div className="space-y-3.5">
-                  {UPCOMING_DEADLINES.map((d) => (
-                    <div key={d.customer} className="flex items-center gap-3">
+                  {RETURNS_DUE.map((r) => (
+                    <div key={r.customer} className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-display font-semibold text-[11px] shrink-0">
-                        {d.customer
+                        {r.customer
                           .split(" ")
                           .map((n) => n[0])
                           .join("")}
                       </div>
                       <div className="min-w-0">
                         <p className="text-sm font-medium truncate">
-                          {d.customer}
+                          {r.customer}
                         </p>
                         <p className="text-[11px] text-ink/45 truncate">
-                          {d.item} · {d.when}
+                          {r.suit} · {r.when}
                         </p>
                       </div>
                     </div>
@@ -305,18 +309,17 @@ export default function OrdersPage() {
                 </div>
               </div>
 
-              {/* ORDER PIPELINE */}
+              {/* INVENTORY BREAKDOWN */}
               <div className="rounded-2xl bg-white border border-ink/8 p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
                 <p className="font-mono uppercase tracking-[0.14em] text-[10px] text-ink/35 mb-4">
-                  Order pipeline
+                  Inventory breakdown
                 </p>
                 <div className="space-y-3">
                   {[
-                    { label: "Pending", value: "3", pct: "8%" },
-                    { label: "In progress", value: "10", pct: "45%" },
-                    { label: "Ready for fitting", value: "6", pct: "25%" },
-                    { label: "Ready for pickup", value: "4", pct: "15%" },
-                    { label: "Completed", value: "22", pct: "100%" },
+                    { label: "Available", value: "12", pct: "55%" },
+                    { label: "On hire", value: "9", pct: "40%" },
+                    { label: "Reserved", value: "4", pct: "20%" },
+                    { label: "Maintenance", value: "2", pct: "10%" },
                   ].map((row) => (
                     <div key={row.label}>
                       <div className="flex items-center justify-between text-sm">
@@ -341,9 +344,9 @@ export default function OrdersPage() {
                 </p>
                 <div className="space-y-2.5">
                   {[
-                    { label: "New order", icon: "＋" },
-                    { label: "Bulk update status", icon: "⇅" },
-                    { label: "Send receipts", icon: "✉" },
+                    { label: "New rental", icon: "＋" },
+                    { label: "Return a suit", icon: "↩" },
+                    { label: "Mark as maintenance", icon: "🛠" },
                   ].map((action) => (
                     <button
                       key={action.label}
