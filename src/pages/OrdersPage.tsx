@@ -199,10 +199,6 @@ export default function OrdersPage() {
                   Track every order.
                 </h1>
               </div>
-              <button className="flex items-center gap-1.5 rounded-full border border-ink/10 bg-white px-3.5 py-2 text-xs font-medium text-ink/60 hover:border-ink/20 transition-colors">
-                This month
-                <IconChevron />
-              </button>
             </div>
 
             {/* TOP STAT CARDS */}
