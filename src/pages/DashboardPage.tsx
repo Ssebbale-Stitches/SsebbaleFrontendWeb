@@ -50,6 +50,25 @@ const FILES = [
   { name: "Fabric Catalogue", meta: "PDF · 3.4MB" },
 ];
 
+// ── CHART DATA ────────────────────────────────────────────
+const REVENUE_TREND = [
+  { month: "Feb", value: 2.1 },
+  { month: "Mar", value: 3.4 },
+  { month: "Apr", value: 2.8 },
+  { month: "May", value: 4.6 },
+  { month: "Jun", value: 5.1 },
+  { month: "Jul", value: 4.3 },
+  { month: "Aug", value: 6.2 },
+];
+
+const ORDER_BREAKDOWN = [
+  { label: "Completed", value: 22, color: "#10b981" },
+  { label: "In Progress", value: 10, color: "#6a56b0" },
+  { label: "Ready for Fitting", value: 6, color: "#8a6fd1" },
+  { label: "Ready for Pickup", value: 4, color: "#38bdf8" },
+  { label: "Pending", value: 3, color: "#f59e0b" },
+];
+
 // ── ICONS ─────────────────────────────────────────────────
 const IconCalendar = () => (
   <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor" fill="none">
@@ -84,6 +103,244 @@ const IconDownload = () => (
     <path d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
+
+// ── LINE CHART (SVG) ──────────────────────────────────────
+function RevenueLineChart() {
+  const w = 600;
+  const h = 180;
+  const padX = 40;
+  const padY = 24;
+
+  const max = Math.max(...REVENUE_TREND.map((d) => d.value));
+  const min = 0;
+
+  const points = REVENUE_TREND.map((d, i) => {
+    const x = padX + (i / (REVENUE_TREND.length - 1)) * (w - padX * 2);
+    const y = h - padY - ((d.value - min) / (max - min)) * (h - padY * 2);
+    return { x, y, ...d };
+  });
+
+  const linePath = points.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
+  const areaPath = `${linePath} L${points[points.length - 1].x},${h - padY} L${points[0].x},${h - padY} Z`;
+
+  return (
+    <div className="rounded-2xl bg-white border border-ink/8 p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+      {/* Header */}
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <p className="font-mono uppercase tracking-[0.14em] text-[10px] text-ink/35 mb-1">
+            Revenue trend
+          </p>
+          <h3 className="font-display font-semibold text-base">
+            UGX 6.2M this month
+          </h3>
+          <p className="text-[11px] text-emerald-600 font-medium mt-0.5">
+            ↑ 18% vs last month
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button className="text-[11px] text-ink/50 hover:text-ink transition-colors">
+            6M
+          </button>
+          <button className="text-[11px] text-lilac-deep font-medium bg-lilac/15 rounded-full px-2.5 py-1">
+            7M
+          </button>
+          <button className="text-[11px] text-ink/50 hover:text-ink transition-colors">
+            1Y
+          </button>
+        </div>
+      </div>
+
+      {/* Chart */}
+      <svg
+        viewBox={`0 0 ${w} ${h}`}
+        className="w-full h-44"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <linearGradient id="lineFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#8a6fd1" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#8a6fd1" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        {/* Grid lines */}
+        {[0, 0.25, 0.5, 0.75, 1].map((t) => {
+          const y = padY + t * (h - padY * 2);
+          return (
+            <line
+              key={t}
+              x1={padX}
+              y1={y}
+              x2={w - padX}
+              y2={y}
+              stroke="#6a56b0"
+              strokeOpacity="0.08"
+              strokeWidth="1"
+              strokeDasharray="4 4"
+            />
+          );
+        })}
+
+        {/* Area */}
+        <path d={areaPath} fill="url(#lineFill)" />
+
+        {/* Line */}
+        <path
+          d={linePath}
+          fill="none"
+          stroke="#6a56b0"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+
+        {/* Dots */}
+        {points.map((p) => (
+          <g key={p.month}>
+            <circle cx={p.x} cy={p.y} r="6" fill="#6a56b0" fillOpacity="0.15" />
+            <circle
+              cx={p.x}
+              cy={p.y}
+              r="3.5"
+              fill="#6a56b0"
+              stroke="#ffffff"
+              strokeWidth="2"
+            />
+          </g>
+        ))}
+
+        {/* X-axis labels */}
+        {points.map((p) => (
+          <text
+            key={`label-${p.month}`}
+            x={p.x}
+            y={h - 6}
+            textAnchor="middle"
+            className="fill-ink/40"
+            style={{ fontSize: "10px", fontFamily: "monospace" }}
+          >
+            {p.month}
+          </text>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+// ── DONUT CHART (SVG) ─────────────────────────────────────
+function OrdersDonutChart() {
+  const total = ORDER_BREAKDOWN.reduce((sum, d) => sum + d.value, 0);
+  const size = 160;
+  const radius = 60;
+  const stroke = 20;
+  const cx = size / 2;
+  const cy = size / 2;
+  const circumference = 2 * Math.PI * radius;
+
+  let offset = 0;
+
+  return (
+    <div className="rounded-2xl bg-white border border-ink/8 p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+      {/* Header */}
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <p className="font-mono uppercase tracking-[0.14em] text-[10px] text-ink/35 mb-1">
+            Order breakdown
+          </p>
+          <h3 className="font-display font-semibold text-base">
+            {total} active orders
+          </h3>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-6">
+        {/* Donut */}
+        <div className="relative shrink-0">
+          <svg
+            viewBox={`0 0 ${size} ${size}`}
+            className="w-40 h-40 -rotate-90"
+          >
+            {/* Background circle */}
+            <circle
+              cx={cx}
+              cy={cy}
+              r={radius}
+              fill="none"
+              stroke="#6a56b0"
+              strokeOpacity="0.08"
+              strokeWidth={stroke}
+            />
+
+            {/* Segments */}
+            {ORDER_BREAKDOWN.map((slice) => {
+              const fraction = slice.value / total;
+              const dash = fraction * circumference;
+              const gap = circumference - dash;
+              const el = (
+                <circle
+                  key={slice.label}
+                  cx={cx}
+                  cy={cy}
+                  r={radius}
+                  fill="none"
+                  stroke={slice.color}
+                  strokeWidth={stroke}
+                  strokeDasharray={`${dash} ${gap}`}
+                  strokeDashoffset={-offset}
+                  strokeLinecap="butt"
+                />
+              );
+              offset += dash;
+              return el;
+            })}
+          </svg>
+
+          {/* Center label */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className="font-display font-semibold text-2xl text-ink">
+              {total}
+            </span>
+            <span className="text-[10px] text-ink/45 uppercase tracking-wide">
+              Total
+            </span>
+          </div>
+        </div>
+
+        {/* Legend */}
+        <div className="flex-1 space-y-2.5 min-w-0">
+          {ORDER_BREAKDOWN.map((slice) => {
+            const pct = Math.round((slice.value / total) * 100);
+            return (
+              <div
+                key={slice.label}
+                className="flex items-center justify-between gap-2"
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <span
+                    className="w-2.5 h-2.5 rounded-full shrink-0"
+                    style={{ backgroundColor: slice.color }}
+                  />
+                  <span className="text-xs text-ink/65 truncate">
+                    {slice.label}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="text-xs font-medium text-ink">
+                    {slice.value}
+                  </span>
+                  <span className="text-[10px] text-ink/40 w-8 text-right">
+                    {pct}%
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function DashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -161,6 +418,12 @@ export default function DashboardPage() {
                 variant="default"
                 icon={<IconHanger />}
               />
+            </div>
+
+            {/* CHARTS */}
+            <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-4">
+              <RevenueLineChart />
+              <OrdersDonutChart />
             </div>
 
             {/* MAIN GRID: LEFT + RIGHT RAIL */}
