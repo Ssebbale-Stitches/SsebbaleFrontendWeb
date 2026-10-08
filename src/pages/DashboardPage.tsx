@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ fixed: import (not imort)
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
 import Footer from "../components/Footer";
-import Modals, {type ModalType} from "../components/modals/Modals";
+import Modals, { type ModalType } from "../components/modals/Modals";
 
 type OrderStatus =
   | "Pending"
@@ -89,9 +90,19 @@ export default function DashboardPage() {
   const [activeNav, setActiveNav] = useState("Overview");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  //  Modal state
+  // Modal state
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const closeModal = () => setActiveModal(null);
+
+  // ✅ navigate + handler INSIDE the component
+  const navigate = useNavigate();
+
+  const handleNavChange = (label: string) => {
+    setActiveNav(label);
+    if (label === "Overview") navigate("/dashboard");
+    if (label === "Bookings") navigate("/bookings");
+    // Add more routes as you build them
+  };
 
   return (
     <div className="min-h-screen w-full bg-[#f3f1fa] flex relative">
@@ -105,10 +116,10 @@ export default function DashboardPage() {
         <div className="fixed inset-0 bg-ink/40 z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* SIDEBAR COMPONENT */}
+      {/* SIDEBAR */}
       <Sidebar
         activeNav={activeNav}
-        setActiveNav={setActiveNav}
+        setActiveNav={handleNavChange}  // ✅ use the handler
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         onLogout={() => setActiveModal("confirm-logout")}
@@ -116,10 +127,8 @@ export default function DashboardPage() {
 
       {/* MAIN CONTENT */}
       <div className="flex-1 min-w-0 flex flex-col relative z-10 h-screen overflow-hidden">
-        {/* NAVBAR COMPONENT */}
         <Navbar onOpenSidebar={() => setSidebarOpen(true)} />
 
-        {/* SCROLLABLE CONTENT */}
         <div className="flex-1 overflow-y-auto px-5 md:px-8 pb-8">
           <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-6">
             {/* LEFT / CENTER COLUMN */}
@@ -131,8 +140,6 @@ export default function DashboardPage() {
                   </p>
                   <h1 className="font-display font-semibold text-xl">Good afternoon, Isaac.</h1>
                 </div>
-                
-                
               </div>
 
               {/* TOP CUSTOMER CARDS */}
@@ -220,35 +227,13 @@ export default function DashboardPage() {
                   Business at a glance
                 </p>
 
-                {/* STAT CARDS */}
                 <div className="grid grid-cols-2 gap-3 mb-5">
-                  <StatCard
-                    label="Total Bookings"
-                    value="128"
-                    sublabel="This month"
-                    variant="default"
-                  />
-                  <StatCard
-                    label="Active Orders"
-                    value="18"
-                    sublabel="In progress"
-                    variant="muted"
-                  />
-                  <StatCard
-                    label="Revenue"
-                    value="6.2M"
-                    sublabel="UGX this month"
-                    variant="primary"
-                  />
-                  <StatCard
-                    label="Suits on Hire"
-                    value="9 / 20"
-                    sublabel="Available"
-                    variant="default"
-                  />
+                  <StatCard label="Total Bookings" value="128" sublabel="This month" variant="default" />
+                  <StatCard label="Active Orders" value="18" sublabel="In progress" variant="muted" />
+                  <StatCard label="Revenue" value="6.2M" sublabel="UGX this month" variant="primary" />
+                  <StatCard label="Suits on Hire" value="9 / 20" sublabel="Available" variant="default" />
                 </div>
 
-                {/* PROGRESS BARS */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-ink/50">Consultations</span>
@@ -268,7 +253,6 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* NEW LEADS */}
               <div className="rounded-2xl bg-white border border-ink/8 p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
                 <div className="flex items-center justify-between mb-4">
                   <p className="font-mono uppercase tracking-[0.14em] text-[10px] text-ink/35">
@@ -291,7 +275,6 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* QUICK FILES */}
               <div className="rounded-2xl bg-white border border-ink/8 p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
                 <p className="font-mono uppercase tracking-[0.14em] text-[10px] text-ink/35 mb-4">
                   Quick files
@@ -307,12 +290,7 @@ export default function DashboardPage() {
                         <p className="text-[10px] text-ink/40">{file.meta}</p>
                       </div>
                       <svg viewBox="0 0 24 24" className="w-4 h-4 text-ink/35 shrink-0" stroke="currentColor" fill="none">
-                        <path
-                          d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
+                        <path d="M12 4v11m0 0 4-4m-4 4-4-4M5 19h14" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   ))}
@@ -321,12 +299,10 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* FOOTER COMPONENT */}
           <Footer />
         </div>
       </div>
 
-       {/* Modals (rendered once, manages all modal types) */}
       <Modals activeModal={activeModal} closeModal={closeModal} />
     </div>
   );
