@@ -1,8 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 interface NavbarProps {
   onOpenSidebar: () => void;
 }
 
 export default function Navbar({ onOpenSidebar }: NavbarProps) {
+  const navigate = useNavigate();
+
   return (
     <header className="flex items-center justify-between gap-3 px-5 md:px-8 py-5 shrink-0 bg-transparent">
       {/* LEFT SIDE: Menu Toggle + Search Bar */}
@@ -39,6 +43,7 @@ export default function Navbar({ onOpenSidebar }: NavbarProps) {
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
         <button
           aria-label="Notifications"
+          onClick={() => navigate("/notifications")}
           className="relative w-9 h-9 rounded-full bg-white border border-ink/8 flex items-center justify-center text-ink/60 hover:text-ink transition-colors shrink-0"
         >
           <svg viewBox="0 0 24 24" className="w-4.5 h-4.5" stroke="currentColor" fill="none">
