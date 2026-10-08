@@ -6,6 +6,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import OtpVerificationPage from "./pages/OtpVerificationPage";
 import DashboardPage from "./pages/DashboardPage";
+import OrdersPage from "./pages/OrdersPage";
 import BookingsPage from "./pages/BookingsPage";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/verify-otp" element={<OtpVerificationPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/orders" element={<OrdersPage />} />
       <Route path="/bookings" element={<BookingsPage />} />
     </Routes>
   );

@@ -94,14 +94,15 @@ export default function DashboardPage() {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const closeModal = () => setActiveModal(null);
 
-  // ✅ navigate + handler INSIDE the component
+  // navigate + handler INSIDE the component
   const navigate = useNavigate();
 
   const handleNavChange = (label: string) => {
     setActiveNav(label);
     if (label === "Overview") navigate("/dashboard");
+    if (label === "Orders") navigate("/orders");
     if (label === "Bookings") navigate("/bookings");
-    // Add more routes as you build them
+    
   };
 
   return (
@@ -119,7 +120,7 @@ export default function DashboardPage() {
       {/* SIDEBAR */}
       <Sidebar
         activeNav={activeNav}
-        setActiveNav={handleNavChange}  // ✅ use the handler
+        setActiveNav={handleNavChange}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         onLogout={() => setActiveModal("confirm-logout")}
