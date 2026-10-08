@@ -14,6 +14,7 @@ import CustomersPage from "./pages/CustomersPage";
 import SupportPage from "./pages/SupportPage";
 import ContactPage from "./pages/ContactPage";
 import NotificationsPage from "./pages/NotificationsPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
       <Route path="/support" element={<SupportPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/notifications" element={<NotificationsPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
     </Routes>
   );
 }

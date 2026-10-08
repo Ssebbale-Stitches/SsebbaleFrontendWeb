@@ -58,9 +58,13 @@ export default function Navbar({ onOpenSidebar }: NavbarProps) {
           <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-lilac-deep" />
         </button>
 
-        <div className="w-9 h-9 rounded-full bg-lilac-deep text-paper flex items-center justify-center font-display font-semibold text-sm shrink-0 cursor-pointer hover:opacity-90 transition-opacity">
-          I
-        </div>
+       <button
+  onClick={() => navigate("/profile")}
+  aria-label="Open profile"
+  className="w-9 h-9 rounded-full bg-lilac-deep text-paper flex items-center justify-center font-display font-semibold text-sm shrink-0 cursor-pointer hover:opacity-90 transition-opacity"
+>
+  I
+</button>
       </div>
     </header>
   );
