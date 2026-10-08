@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ fixed: import (not imort)
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
@@ -87,25 +86,11 @@ function Sparkline({ data }: { data: number[] }) {
 }
 
 export default function DashboardPage() {
-  const [activeNav, setActiveNav] = useState("Overview");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Modal state
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const closeModal = () => setActiveModal(null);
-
-  // navigate + handler INSIDE the component
-  const navigate = useNavigate();
-
-  const handleNavChange = (label: string) => {
-    setActiveNav(label);
-    if (label === "Overview") navigate("/dashboard");
-    if (label === "Orders") navigate("/orders");
-    if (label === "Bookings") navigate("/bookings");
-    if (label === "Suit Hire") navigate("/suit-hire")
-    if (label === "Products") navigate("/products");
-    if (label === "Customers") navigate("/customers");
-  };
 
   return (
     <div className="min-h-screen w-full bg-[#f3f1fa] flex relative">
@@ -119,10 +104,8 @@ export default function DashboardPage() {
         <div className="fixed inset-0 bg-ink/40 z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* SIDEBAR */}
+      {/* SIDEBAR — only 3 props now */}
       <Sidebar
-        activeNav={activeNav}
-        setActiveNav={handleNavChange}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         onLogout={() => setActiveModal("confirm-logout")}

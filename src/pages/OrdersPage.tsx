@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
@@ -59,24 +58,11 @@ const UPCOMING_DEADLINES = [
 ];
 
 export default function OrdersPage() {
-  const [activeNav, setActiveNav] = useState("Orders");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<OrderStatus | "All">("All");
 
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const closeModal = () => setActiveModal(null);
-
-  const navigate = useNavigate();
-
-  const handleNavChange = (label: string) => {
-    setActiveNav(label);
-    if (label === "Overview") navigate("/dashboard");
-    if (label === "Bookings") navigate("/bookings");
-    if (label === "Orders") navigate("/orders");
-    if (label === "Suit Hire") navigate("/suit-hire");
-    if (label === "Products") navigate("/products");
-    if (label === "Customers") navigate("/customers");
-  };
 
   const filteredOrders =
     activeFilter === "All"
@@ -100,8 +86,6 @@ export default function OrdersPage() {
 
       {/* SIDEBAR */}
       <Sidebar
-        activeNav={activeNav}
-        setActiveNav={handleNavChange}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         onLogout={() => setActiveModal("confirm-logout")}

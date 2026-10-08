@@ -1,8 +1,10 @@
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/images/Business-logo.jpeg";
 
 const NAV = [
   {
     label: "Overview",
+    path: "/dashboard",
     icon: (
       <>
         <rect x="4" y="4" width="7" height="7" rx="1.5" strokeWidth="1.6" />
@@ -14,6 +16,7 @@ const NAV = [
   },
   {
     label: "Orders",
+    path: "/orders",
     icon: (
       <>
         <rect x="4" y="5.5" width="16" height="14" rx="2" strokeWidth="1.6" />
@@ -23,6 +26,7 @@ const NAV = [
   },
   {
     label: "Bookings",
+    path: "/bookings",
     icon: (
       <>
         <circle cx="12" cy="12" r="8.5" strokeWidth="1.6" />
@@ -32,6 +36,7 @@ const NAV = [
   },
   {
     label: "Suit Hire",
+    path: "/suit-hire",
     icon: (
       <path
         d="M12 5.5a1.8 1.8 0 1 1 1.8 1.8H12M3 10l9-4.5 9 4.5-8 3.2v6.3M4 20h16"
@@ -43,6 +48,7 @@ const NAV = [
   },
   {
     label: "Products",
+    path: "/products",
     icon: (
       <>
         <path d="M4 8.5 12 4l8 4.5-8 4.5-8-4.5Z" strokeWidth="1.6" strokeLinejoin="round" />
@@ -52,6 +58,7 @@ const NAV = [
   },
   {
     label: "Customers",
+    path: "/customers",
     icon: (
       <>
         <circle cx="12" cy="8" r="3.2" strokeWidth="1.6" />
@@ -62,20 +69,19 @@ const NAV = [
 ];
 
 interface SidebarProps {
-  activeNav: string;
-  setActiveNav: (label: string) => void;
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
   onLogout: () => void;
 }
 
-export default function Sidebar({ 
-  activeNav, 
-  setActiveNav, 
-  sidebarOpen, 
+export default function Sidebar({
+  sidebarOpen,
   setSidebarOpen,
   onLogout,
 }: SidebarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <aside
       className={`fixed md:static top-0 left-0 h-full md:h-auto w-64 shrink-0 bg-white border-r border-ink/8 flex flex-col z-50 transition-transform duration-300 ${
@@ -88,25 +94,28 @@ export default function Sidebar({
       </div>
 
       <nav className="flex-1 px-3 py-3 space-y-1">
-        {NAV.map((item) => (
-          <button
-            key={item.label}
-            onClick={() => {
-              setActiveNav(item.label);
-              setSidebarOpen(false);
-            }}
-            className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors duration-200 ${
-              activeNav === item.label
-                ? "bg-lilac-deep text-paper"
-                : "text-ink/55 hover:text-ink hover:bg-ink/[0.04]"
-            }`}
-          >
-            <svg viewBox="0 0 24 24" className="w-4.5 h-4.5 shrink-0" stroke="currentColor" fill="none">
-              {item.icon}
-            </svg>
-            {item.label}
-          </button>
-        ))}
+        {NAV.map((item) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <button
+              key={item.label}
+              onClick={() => {
+                navigate(item.path);
+                setSidebarOpen(false);
+              }}
+              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors duration-200 ${
+                isActive
+                  ? "bg-lilac-deep text-paper"
+                  : "text-ink/55 hover:text-ink hover:bg-ink/[0.04]"
+              }`}
+            >
+              <svg viewBox="0 0 24 24" className="w-4.5 h-4.5 shrink-0" stroke="currentColor" fill="none">
+                {item.icon}
+              </svg>
+              {item.label}
+            </button>
+          );
+        })}
       </nav>
 
       <div className="px-3 pb-4 space-y-1">
@@ -122,8 +131,10 @@ export default function Sidebar({
           Support
         </button>
 
-        {/* LOGOUT BUTTON */}
-        <button  onClick={onLogout} className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-ink/55 hover:text-red-500 hover:bg-red-50 transition-colors duration-200">
+        <button
+          onClick={onLogout}
+          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-ink/55 hover:text-red-500 hover:bg-red-50 transition-colors duration-200"
+        >
           <svg viewBox="0 0 24 24" className="w-4.5 h-4.5 shrink-0" stroke="currentColor" fill="none">
             <path
               d="M15 16l4-4m0 0l-4-4m4 4H9M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4"

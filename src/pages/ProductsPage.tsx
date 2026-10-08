@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
@@ -66,24 +65,11 @@ const LOW_STOCK = [
 ];
 
 export default function ProductsPage() {
-  const [activeNav, setActiveNav] = useState("Products");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<ProductCategory | "All">("All");
 
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const closeModal = () => setActiveModal(null);
-
-  const navigate = useNavigate();
-
-  const handleNavChange = (label: string) => {
-    setActiveNav(label);
-    if (label === "Overview") navigate("/dashboard");
-    if (label === "Bookings") navigate("/bookings");
-    if (label === "Orders") navigate("/orders");
-    if (label === "Suit Hire") navigate("/suit-hire");
-    if (label === "Products") navigate("/products");
-    if (label === "Customers") navigate("/customers");
-  };
 
   const filteredProducts =
     activeFilter === "All"
@@ -107,8 +93,6 @@ export default function ProductsPage() {
 
       {/* SIDEBAR */}
       <Sidebar
-        activeNav={activeNav}
-        setActiveNav={handleNavChange}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         onLogout={() => setActiveModal("confirm-logout")}

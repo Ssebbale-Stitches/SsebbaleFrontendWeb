@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
@@ -105,24 +104,10 @@ const UPCOMING = [
 ];
 
 export default function BookingsPage() {
-  const [activeNav, setActiveNav] = useState("Bookings");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const closeModal = () => setActiveModal(null);
-
-  const navigate = useNavigate();
-
-  // Keep sidebar navigation in sync with routes
-  const handleNavChange = (label: string) => {
-    setActiveNav(label);
-    if (label === "Overview") navigate("/dashboard");
-    if (label === "Orders") navigate("/orders");
-    if (label === "Bookings") navigate("/bookings");
-    if (label === "Suit Hire") navigate("/suit-hire");
-    if (label === "Products") navigate("/products");
-    if (label === "Customers") navigate("/customers");
-  };
 
   return (
     <div className="min-h-screen w-full bg-[#f3f1fa] flex relative">
@@ -141,8 +126,6 @@ export default function BookingsPage() {
 
       {/* SIDEBAR */}
       <Sidebar
-        activeNav={activeNav}
-        setActiveNav={handleNavChange}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         onLogout={() => setActiveModal("confirm-logout")}
