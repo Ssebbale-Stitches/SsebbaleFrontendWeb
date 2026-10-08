@@ -120,6 +120,7 @@ export default function BookingsPage() {
     if (label === "Orders") navigate("/orders");
     if (label === "Bookings") navigate("/bookings");
     if (label === "Suit Hire") navigate("/suit-hire");
+    if (label === "Products") navigate("/products");
   };
 
   return (

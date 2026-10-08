@@ -74,6 +74,7 @@ export default function OrdersPage() {
     if (label === "Bookings") navigate("/bookings");
     if (label === "Orders") navigate("/orders");
     if (label === "Suit Hire") navigate("/suit-hire");
+    if (label === "Products") navigate("/products");
   };
 
   const filteredOrders =
