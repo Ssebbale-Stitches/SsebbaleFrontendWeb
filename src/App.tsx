@@ -10,6 +10,7 @@ import OrdersPage from "./pages/OrdersPage";
 import BookingsPage from "./pages/BookingsPage";
 import SuitHirePage from "./pages/SuitHirePage";
 import ProductsPage from "./pages/ProductsPage";
+import CustomersPage from "./pages/CustomersPage";
 
 function App() {
   return (
@@ -23,8 +24,9 @@ function App() {
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/orders" element={<OrdersPage />} />
       <Route path="/bookings" element={<BookingsPage />} />
-     <Route path="/suit-hire" element={<SuitHirePage />} />
+      <Route path="/suit-hire" element={<SuitHirePage />} />
       <Route path="/products" element={<ProductsPage />} />
+      <Route path="/customers" element={<CustomersPage />} />
     </Routes>
   );
 }

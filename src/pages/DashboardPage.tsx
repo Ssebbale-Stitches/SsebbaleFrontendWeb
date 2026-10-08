@@ -103,7 +103,8 @@ export default function DashboardPage() {
     if (label === "Orders") navigate("/orders");
     if (label === "Bookings") navigate("/bookings");
     if (label === "Suit Hire") navigate("/suit-hire")
-    if (label === "Poducts") navigate("/products");
+    if (label === "Products") navigate("/products");
+    if (label === "Customers") navigate("/customers");
   };
 
   return (

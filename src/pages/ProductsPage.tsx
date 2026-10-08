@@ -82,6 +82,7 @@ export default function ProductsPage() {
     if (label === "Orders") navigate("/orders");
     if (label === "Suit Hire") navigate("/suit-hire");
     if (label === "Products") navigate("/products");
+    if (label === "Customers") navigate("/customers");
   };
 
   const filteredProducts =

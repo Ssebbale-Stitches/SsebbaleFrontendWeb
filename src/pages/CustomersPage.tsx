@@ -6,55 +6,65 @@ import StatCard from "../components/StatCard";
 import Footer from "../components/Footer";
 import Modals, { type ModalType } from "../components/modals/Modals";
 
-type SuitStatus = "Available" | "On Hire" | "Reserved" | "Maintenance";
-type SuitSize = "S" | "M" | "L" | "XL" | "XXL";
+type CustomerTier = "New" | "Regular" | "VIP";
+type CustomerStatus = "Active" | "Inactive";
 
-interface Suit {
+interface Customer {
   id: string;
   name: string;
-  size: SuitSize;
-  color: string;
-  status: SuitStatus;
-  rate: string;
-  rentedTo?: string;
-  dueBack?: string;
+  phone: string;
+  email: string;
+  tier: CustomerTier;
+  status: CustomerStatus;
+  orders: number;
+  spend: string;
+  lastOrder: string;
 }
 
-const STATUS_STYLES: Record<SuitStatus, string> = {
-  Available: "bg-emerald-50 text-emerald-700",
-  "On Hire": "bg-lilac-deep/10 text-lilac-deep",
-  Reserved: "bg-sky-50 text-sky-700",
-  Maintenance: "bg-amber-50 text-amber-700",
+const TIER_STYLES: Record<CustomerTier, string> = {
+  New: "bg-sky-50 text-sky-700",
+  Regular: "bg-lilac/15 text-lilac-deep",
+  VIP: "bg-amber-50 text-amber-700",
 };
 
-const FILTERS: Array<{ label: string; value: SuitStatus | "All" }> = [
+const STATUS_STYLES: Record<CustomerStatus, string> = {
+  Active: "bg-emerald-50 text-emerald-700",
+  Inactive: "bg-ink/5 text-ink/50",
+};
+
+const FILTERS: Array<{ label: string; value: CustomerTier | "All" }> = [
   { label: "All", value: "All" },
-  { label: "Available", value: "Available" },
-  { label: "On Hire", value: "On Hire" },
-  { label: "Reserved", value: "Reserved" },
-  { label: "Maintenance", value: "Maintenance" },
+  { label: "New", value: "New" },
+  { label: "Regular", value: "Regular" },
+  { label: "VIP", value: "VIP" },
 ];
 
-const SUITS: Suit[] = [
-  { id: "#SH-001", name: "Classic Navy Suit", size: "L", color: "Navy", status: "On Hire", rate: "UGX 95,000 / day", rentedTo: "Daniel Mugisha", dueBack: "Jul 31" },
-  { id: "#SH-002", name: "Charcoal 3-Piece", size: "M", color: "Charcoal", status: "Available", rate: "UGX 120,000 / day" },
-  { id: "#SH-003", name: "Black Tuxedo", size: "L", color: "Black", status: "Reserved", rate: "UGX 150,000 / day", rentedTo: "Joseph Ochieng", dueBack: "Aug 6" },
-  { id: "#SH-004", name: "Beige Linen Suit", size: "M", color: "Beige", status: "Available", rate: "UGX 85,000 / day" },
-  { id: "#SH-005", name: "Burgundy Velvet", size: "S", color: "Burgundy", status: "Maintenance", rate: "UGX 130,000 / day" },
-  { id: "#SH-006", name: "Grey Slim Fit", size: "XL", color: "Grey", status: "On Hire", rate: "UGX 100,000 / day", rentedTo: "Brian Kato", dueBack: "Aug 2" },
-  { id: "#SH-007", name: "Ivory Wedding Suit", size: "L", color: "Ivory", status: "Reserved", rate: "UGX 180,000 / day", rentedTo: "Grace Nakato", dueBack: "Aug 4" },
+const CUSTOMERS: Customer[] = [
+  { id: "#CU-201", name: "Grace Nakato", phone: "+256 772 123 456", email: "grace@example.com", tier: "VIP", status: "Active", orders: 8, spend: "UGX 4,200,000", lastOrder: "Aug 4" },
+  { id: "#CU-202", name: "Brian Kato", phone: "+256 701 555 234", email: "brian@example.com", tier: "Regular", status: "Active", orders: 3, spend: "UGX 1,860,000", lastOrder: "Aug 2" },
+  { id: "#CU-203", name: "Esther Namono", phone: "+256 788 444 111", email: "esther@example.com", tier: "New", status: "Active", orders: 1, spend: "UGX 210,000", lastOrder: "Aug 6" },
+  { id: "#CU-204", name: "Daniel Mugisha", phone: "+256 750 999 888", email: "daniel@example.com", tier: "Regular", status: "Active", orders: 5, spend: "UGX 2,100,000", lastOrder: "Jul 31" },
+  { id: "#CU-205", name: "Patricia Auma", phone: "+256 713 222 333", email: "patricia@example.com", tier: "VIP", status: "Active", orders: 12, spend: "UGX 6,800,000", lastOrder: "Aug 9" },
+  { id: "#CU-206", name: "Joseph Ochieng", phone: "+256 704 111 777", email: "joseph@example.com", tier: "Regular", status: "Inactive", orders: 2, spend: "UGX 560,000", lastOrder: "Jun 14" },
+  { id: "#CU-207", name: "Sandra Akello", phone: "+256 776 888 999", email: "sandra@example.com", tier: "New", status: "Active", orders: 1, spend: "UGX 1,200,000", lastOrder: "Aug 8" },
 ];
 
-const RETURNS_DUE = [
-  { customer: "Daniel Mugisha", suit: "Classic Navy Suit", when: "Today" },
-  { customer: "Brian Kato", suit: "Grey Slim Fit", when: "Aug 2" },
-  { customer: "Grace Nakato", suit: "Ivory Wedding Suit", when: "Aug 4" },
+const RECENT_ACTIVITY = [
+  { customer: "Sandra Akello", action: "Placed a new order", when: "2h ago" },
+  { customer: "Patricia Auma", action: "Paid invoice #SS-1038", when: "5h ago" },
+  { customer: "Grace Nakato", action: "Booked a fitting", when: "Yesterday" },
 ];
 
-export default function SuitHirePage() {
-  const [activeNav, setActiveNav] = useState("Suit Hire");
+const TOP_SPENDERS = [
+  { name: "Patricia Auma", spend: "UGX 6.8M" },
+  { name: "Grace Nakato", spend: "UGX 4.2M" },
+  { name: "Daniel Mugisha", spend: "UGX 2.1M" },
+];
+
+export default function CustomersPage() {
+  const [activeNav, setActiveNav] = useState("Customers");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState<SuitStatus | "All">("All");
+  const [activeFilter, setActiveFilter] = useState<CustomerTier | "All">("All");
 
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const closeModal = () => setActiveModal(null);
@@ -71,10 +81,10 @@ export default function SuitHirePage() {
     if (label === "Customers") navigate("/customers");
   };
 
-  const filteredSuits =
+  const filteredCustomers =
     activeFilter === "All"
-      ? SUITS
-      : SUITS.filter((s) => s.status === activeFilter);
+      ? CUSTOMERS
+      : CUSTOMERS.filter((c) => c.tier === activeFilter);
 
   return (
     <div className="min-h-screen w-full bg-[#f3f1fa] flex relative">
@@ -111,14 +121,14 @@ export default function SuitHirePage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-mono uppercase tracking-[0.14em] text-[10px] text-lilac-deep mb-1">
-                    Suit Hire
+                    Customers
                   </p>
                   <h1 className="font-display font-semibold text-xl">
-                    Rentals in motion.
+                    Your people.
                   </h1>
                 </div>
                 <button className="flex items-center gap-1.5 rounded-full border border-ink/10 bg-white px-3.5 py-2 text-xs font-medium text-ink/60 hover:border-ink/20 transition-colors">
-                  This month
+                  All time
                   <svg
                     viewBox="0 0 24 24"
                     className="w-3.5 h-3.5"
@@ -138,21 +148,21 @@ export default function SuitHirePage() {
               {/* TOP STAT CARDS */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <StatCard
-                  label="Available"
-                  value="12"
-                  sublabel="Ready to rent"
+                  label="Total Customers"
+                  value="86"
+                  sublabel="All time"
                   variant="primary"
                 />
                 <StatCard
-                  label="On Hire"
-                  value="9"
-                  sublabel="Currently rented"
+                  label="New This Month"
+                  value="12"
+                  sublabel="First-time clients"
                   variant="default"
                 />
                 <StatCard
-                  label="Returns Due"
-                  value="3"
-                  sublabel="Next 7 days"
+                  label="VIP Clients"
+                  value="9"
+                  sublabel="Top 10% spenders"
                   variant="muted"
                 />
               </div>
@@ -174,14 +184,14 @@ export default function SuitHirePage() {
                 ))}
               </div>
 
-              {/* SUITS TABLE */}
+              {/* CUSTOMERS TABLE */}
               <div className="rounded-2xl bg-white border border-ink/8 overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-ink/8">
                   <h2 className="font-display font-semibold text-base">
-                    Suit inventory
+                    Customer directory
                   </h2>
                   <button className="text-xs text-lilac-deep font-medium hover:underline">
-                    Manage rates
+                    Export CSV
                   </button>
                 </div>
 
@@ -189,39 +199,39 @@ export default function SuitHirePage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="text-left text-ink/40 text-[11px] uppercase tracking-wide">
-                        <th className="font-medium px-5 py-3">Suit</th>
+                        <th className="font-medium px-5 py-3">Customer</th>
                         <th className="font-medium px-5 py-3 hidden sm:table-cell">
-                          Size
+                          Tier
                         </th>
                         <th className="font-medium px-5 py-3 hidden md:table-cell">
-                          Rate
+                          Orders
                         </th>
                         <th className="font-medium px-5 py-3 hidden lg:table-cell">
-                          Rented To
+                          Spend
                         </th>
                         <th className="font-medium px-5 py-3">Status</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredSuits.length === 0 ? (
+                      {filteredCustomers.length === 0 ? (
                         <tr>
                           <td
                             colSpan={5}
                             className="px-5 py-10 text-center text-xs text-ink/45"
                           >
-                            No suits match this filter.
+                            No customers match this filter.
                           </td>
                         </tr>
                       ) : (
-                        filteredSuits.map((suit) => (
+                        filteredCustomers.map((c) => (
                           <tr
-                            key={suit.id}
+                            key={c.id}
                             className="border-t border-ink/5 hover:bg-ink/[0.015] transition-colors"
                           >
                             <td className="px-5 py-3.5">
                               <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-lilac/15 text-lilac-deep flex items-center justify-center font-display font-semibold text-[11px] shrink-0">
-                                  {suit.name
+                                  {c.name
                                     .split(" ")
                                     .map((n) => n[0])
                                     .join("")
@@ -229,39 +239,41 @@ export default function SuitHirePage() {
                                 </div>
                                 <div className="min-w-0">
                                   <p className="font-medium truncate">
-                                    {suit.name}
+                                    {c.name}
                                   </p>
                                   <p className="text-[11px] text-ink/45 truncate">
-                                    {suit.id} · {suit.color}
+                                    {c.phone}
                                   </p>
                                 </div>
                               </div>
                             </td>
-                            <td className="px-5 py-3.5 hidden sm:table-cell text-ink/60 whitespace-nowrap">
-                              {suit.size}
+                            <td className="px-5 py-3.5 hidden sm:table-cell whitespace-nowrap">
+                              <span
+                                className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-medium ${
+                                  TIER_STYLES[c.tier]
+                                }`}
+                              >
+                                {c.tier}
+                              </span>
                             </td>
                             <td className="px-5 py-3.5 hidden md:table-cell text-ink/60 whitespace-nowrap">
-                              {suit.rate}
+                              <div>
+                                <p>{c.orders}</p>
+                                <p className="text-[10px] text-ink/40">
+                                  Last: {c.lastOrder}
+                                </p>
+                              </div>
                             </td>
                             <td className="px-5 py-3.5 hidden lg:table-cell text-ink/60 whitespace-nowrap">
-                              {suit.rentedTo ? (
-                                <div>
-                                  <p>{suit.rentedTo}</p>
-                                  <p className="text-[10px] text-ink/40">
-                                    Due {suit.dueBack}
-                                  </p>
-                                </div>
-                              ) : (
-                                <span className="text-ink/30">—</span>
-                              )}
+                              {c.spend}
                             </td>
                             <td className="px-5 py-3.5">
                               <span
                                 className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-medium whitespace-nowrap ${
-                                  STATUS_STYLES[suit.status]
+                                  STATUS_STYLES[c.status]
                                 }`}
                               >
-                                {suit.status}
+                                {c.status}
                               </span>
                             </td>
                           </tr>
@@ -273,7 +285,7 @@ export default function SuitHirePage() {
 
                 <div className="px-5 py-3.5 border-t border-ink/8 text-center">
                   <button className="text-xs text-ink/45 hover:text-lilac-deep transition-colors">
-                    Load more suits
+                    Load more customers
                   </button>
                 </div>
               </div>
@@ -281,29 +293,30 @@ export default function SuitHirePage() {
 
             {/* RIGHT RAIL */}
             <div className="space-y-5">
-              {/* RETURNS DUE */}
+              {/* RECENT ACTIVITY */}
               <div className="rounded-2xl bg-white border border-ink/8 p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
                 <div className="flex items-center justify-between mb-4">
                   <p className="font-mono uppercase tracking-[0.14em] text-[10px] text-ink/35">
-                    Returns due
+                    Recent activity
                   </p>
                   <span className="w-1.5 h-1.5 rounded-full bg-lilac-deep animate-pulse" />
                 </div>
                 <div className="space-y-3.5">
-                  {RETURNS_DUE.map((r) => (
-                    <div key={r.customer} className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-display font-semibold text-[11px] shrink-0">
-                        {r.customer
+                  {RECENT_ACTIVITY.map((a) => (
+                    <div key={a.customer} className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-lilac/15 text-lilac-deep flex items-center justify-center font-display font-semibold text-[11px] shrink-0">
+                        {a.customer
                           .split(" ")
                           .map((n) => n[0])
-                          .join("")}
+                          .join("")
+                          .slice(0, 2)}
                       </div>
                       <div className="min-w-0">
                         <p className="text-sm font-medium truncate">
-                          {r.customer}
+                          {a.customer}
                         </p>
                         <p className="text-[11px] text-ink/45 truncate">
-                          {r.suit} · {r.when}
+                          {a.action} · {a.when}
                         </p>
                       </div>
                     </div>
@@ -311,29 +324,34 @@ export default function SuitHirePage() {
                 </div>
               </div>
 
-              {/* INVENTORY BREAKDOWN */}
+              {/* TOP SPENDERS */}
               <div className="rounded-2xl bg-white border border-ink/8 p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
                 <p className="font-mono uppercase tracking-[0.14em] text-[10px] text-ink/35 mb-4">
-                  Inventory breakdown
+                  Top spenders
                 </p>
                 <div className="space-y-3">
-                  {[
-                    { label: "Available", value: "12", pct: "55%" },
-                    { label: "On hire", value: "9", pct: "40%" },
-                    { label: "Reserved", value: "4", pct: "20%" },
-                    { label: "Maintenance", value: "2", pct: "10%" },
-                  ].map((row) => (
-                    <div key={row.label}>
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-ink/50">{row.label}</span>
-                        <span className="font-medium">{row.value}</span>
-                      </div>
-                      <div className="h-1.5 rounded-full bg-ink/5 overflow-hidden mt-1.5">
+                  {TOP_SPENDERS.map((s, i) => (
+                    <div
+                      key={s.name}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
                         <div
-                          className="h-full bg-lilac-deep rounded-full"
-                          style={{ width: row.pct }}
-                        />
+                          className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-display font-semibold ${
+                            i === 0
+                              ? "bg-amber-100 text-amber-700"
+                              : "bg-lilac/15 text-lilac-deep"
+                          }`}
+                        >
+                          {i + 1}
+                        </div>
+                        <p className="text-sm font-medium truncate">
+                          {s.name}
+                        </p>
                       </div>
+                      <p className="text-xs font-medium text-ink/60">
+                        {s.spend}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -346,9 +364,9 @@ export default function SuitHirePage() {
                 </p>
                 <div className="space-y-2.5">
                   {[
-                    { label: "New rental", icon: "＋" },
-                    { label: "Return a suit", icon: "↩" },
-                    { label: "Mark as maintenance", icon: "🛠" },
+                    { label: "Add customer", icon: "＋" },
+                    { label: "Send bulk message", icon: "✉" },
+                    { label: "Export contacts", icon: "⤓" },
                   ].map((action) => (
                     <button
                       key={action.label}
