@@ -84,14 +84,23 @@ export default function Sidebar({
 
   return (
     <aside
-      className={`fixed md:static top-0 left-0 h-full md:h-auto w-64 shrink-0 bg-white border-r border-ink/8 flex flex-col z-50 transition-transform duration-300 ${
-        sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-      }`}
+      className={`fixed md:static top-0 left-0 h-full md:h-auto w-64 shrink-0 flex flex-col z-50 transition-transform duration-300
+        bg-gradient-to-b from-white/80 via-lilac/20 to-lilac-deep/15
+        backdrop-blur-xl
+        border-r border-white/40
+        shadow-[4px_0_24px_-8px_rgba(106,86,176,0.15)]
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+      `}
     >
-      <div className="flex items-center gap-2.5 px-6 py-6">
-        <img src={logo} alt="Ssebbale Stitches" className="h-9 w-auto rounded-full object-cover" />
-        <span className="font-display font-semibold text-sm text-ink">Ssebbale Stitches</span>
-      </div>
+      <div className="flex items-center justify-center px-6 py-6">
+  <a href="/" className="flex items-center no-underline">
+    <img
+      src={logo}
+      alt="Ssebbale Stitches"
+      className="h-16 w-16 rounded-full object-cover ring-2 ring-white/60 shadow-md transition-transform duration-500 hover:scale-105 hover:ring-lilac/60"
+    />
+  </a>
+</div>
 
       <nav className="flex-1 px-3 py-3 space-y-1">
         {NAV.map((item) => {
@@ -105,8 +114,8 @@ export default function Sidebar({
               }}
               className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors duration-200 ${
                 isActive
-                  ? "bg-lilac-deep text-paper"
-                  : "text-ink/55 hover:text-ink hover:bg-ink/[0.04]"
+                  ? "bg-lilac-deep text-paper shadow-[0_4px_12px_-4px_rgba(106,86,176,0.4)]"
+                  : "text-ink/65 hover:text-ink hover:bg-white/50"
               }`}
             >
               <svg viewBox="0 0 24 24" className="w-4.5 h-4.5 shrink-0" stroke="currentColor" fill="none">
@@ -119,31 +128,31 @@ export default function Sidebar({
       </nav>
 
       <div className="px-3 pb-4 space-y-1">
-       <button
-  onClick={() => {
-    navigate("/support");
-    setSidebarOpen(false);
-  }}
-  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors duration-200 ${
-    location.pathname === "/support"
-      ? "bg-lilac-deep text-paper"
-      : "text-ink/55 hover:text-ink hover:bg-ink/[0.04]"
-  }`}
->
-  <svg viewBox="0 0 24 24" className="w-4.5 h-4.5 shrink-0" stroke="currentColor" fill="none">
-    <path
-      d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-  Support
-</button>
+        <button
+          onClick={() => {
+            navigate("/support");
+            setSidebarOpen(false);
+          }}
+          className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors duration-200 ${
+            location.pathname === "/support"
+              ? "bg-lilac-deep text-paper shadow-[0_4px_12px_-4px_rgba(106,86,176,0.4)]"
+              : "text-ink/65 hover:text-ink hover:bg-white/50"
+          }`}
+        >
+          <svg viewBox="0 0 24 24" className="w-4.5 h-4.5 shrink-0" stroke="currentColor" fill="none">
+            <path
+              d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          Support
+        </button>
 
         <button
           onClick={onLogout}
-          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-ink/55 hover:text-red-500 hover:bg-red-50 transition-colors duration-200"
+          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-ink/65 hover:text-red-500 hover:bg-red-50/70 transition-colors duration-200"
         >
           <svg viewBox="0 0 24 24" className="w-4.5 h-4.5 shrink-0" stroke="currentColor" fill="none">
             <path
@@ -157,21 +166,21 @@ export default function Sidebar({
         </button>
       </div>
 
-      <div className="mx-3 mb-5 rounded-2xl bg-gradient-to-br from-lilac-deep to-ink p-4 text-paper relative overflow-hidden">
+      <div className="mx-3 mb-5 rounded-2xl bg-gradient-to-br from-lilac-deep to-ink p-4 text-paper relative overflow-hidden shadow-[0_8px_24px_-8px_rgba(106,86,176,0.5)]">
         <div className="pointer-events-none absolute -bottom-6 -right-6 w-24 h-24 rounded-full bg-white/10 blur-xl" />
         <p className="font-display font-semibold text-sm mb-1 relative">Need a hand?</p>
         <p className="text-[11px] text-paper/70 mb-3 relative leading-relaxed">
           Reach the Ssebbale Stitches team anytime.
         </p>
         <button
-  onClick={() => {
-    navigate("/contact");
-    setSidebarOpen(false);
-  }}
-  className="relative w-full text-center rounded-lg bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/20 px-3 py-2 text-xs font-medium transition-colors duration-200"
->
-  Contact us
-</button>
+          onClick={() => {
+            navigate("/contact");
+            setSidebarOpen(false);
+          }}
+          className="relative w-full text-center rounded-lg bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/20 px-3 py-2 text-xs font-medium transition-colors duration-200"
+        >
+          Contact us
+        </button>
       </div>
     </aside>
   );
