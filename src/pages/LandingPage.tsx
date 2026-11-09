@@ -851,62 +851,69 @@ export default function LandingPage() {
       <section
         id="book"
         ref={cta.ref}
-        className={`relative overflow-hidden px-[6vw] py-24 transition-all duration-700 ease-out ${
+        className={`relative bg-[#06050a] px-[5vw] py-20 transition-all duration-700 ease-out ${
           cta.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
         }`}
       >
-        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[36rem] h-[36rem] rounded-full bg-lilac/20 blur-[110px]" />
+        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] border border-white/[0.06] bg-[#0b0912] px-6 py-20 text-center sm:px-16 sm:py-24">
+          {/* Purple glows bleeding in from both edges */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-[radial-gradient(ellipse_at_left,rgba(139,92,246,0.45),rgba(88,28,135,0.12)_45%,transparent_75%)]" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-[radial-gradient(ellipse_at_right,rgba(139,92,246,0.45),rgba(88,28,135,0.12)_45%,transparent_75%)]" />
 
-        <div className="relative max-w-4xl rounded-[2.5rem] bg-white/40 backdrop-blur-2xl border border-white/60 shadow-[0_30px_70px_-25px_rgba(106,86,176,0.4)] px-8 py-16 sm:px-16">
-          <span className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+          <div className="relative">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/[0.05] border border-white/10 px-4 py-1.5 mb-7">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#b18cff] animate-pulse" />
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#b18cff]">Booking now</span>
+            </span>
 
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/50 border border-white/70 px-4 py-1.5 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-lilac-deep animate-pulse" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-lilac-deep">Booking now</span>
-          </span>
+            <h2 className="mx-auto max-w-3xl font-display text-4xl font-normal leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl">
+              Your <span className="text-[#b18cff]">next outfit</span> starts here.
+            </h2>
 
-          <h2 className={`${h2Base} mb-4`}>Your next outfit starts here.</h2>
-          <p className="text-ink/65 max-w-md mb-8 leading-relaxed">
-            Book a consultation, bring your ideas, and we'll take care of the measuring, the fitting and the
-            finishing.
-          </p>
+            <p className="mx-auto mt-6 mb-8 max-w-lg text-sm leading-relaxed text-white/60 sm:text-[15px]">
+              Book a consultation, bring your ideas, and we'll take care of the measuring, the fitting and the
+              finishing.
+            </p>
 
-          <ul className="flex flex-wrap justify-start gap-x-6 gap-y-2 mb-10 text-sm text-ink/70">
-            {["Made around your measurements", "Suits available to hire", "Fittings and pickup, all booked in one place"].map(
-              (perk) => (
-                <li key={perk} className="flex items-center gap-2">
-                  <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0 text-lilac-deep" stroke="currentColor" fill="none">
-                    <path d="M5 12.5l4.2 4.2L19 7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  {perk}
-                </li>
-              )
-            )}
-          </ul>
+            <ul className="mx-auto mb-10 flex max-w-2xl flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-white/55">
+              {["Made around your measurements", "Suits available to hire", "Fittings and pickup, all booked in one place"].map(
+                (perk) => (
+                  <li key={perk} className="flex items-center gap-2">
+                    <svg viewBox="0 0 24 24" className="w-4 h-4 shrink-0 text-[#b18cff]" stroke="currentColor" fill="none">
+                      <path d="M5 12.5l4.2 4.2L19 7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {perk}
+                  </li>
+                )
+              )}
+            </ul>
 
-          <div className="flex gap-3.5 flex-wrap justify-start">
-            <a
-              className="group inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-lilac-deep text-paper text-sm font-medium shadow-lg shadow-lilac-deep/30 transition-all duration-300 hover:-translate-y-1 hover:bg-ink hover:shadow-xl hover:shadow-lilac-deep/40"
-              href={CONTACT_PATH}
-            >
-              Book a Consultation
-              <svg
-                viewBox="0 0 24 24"
-                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                stroke="currentColor"
-                fill="none"
+            <div className="flex flex-wrap items-center justify-center gap-3.5">
+              <a
+                className="group inline-flex items-center gap-3 rounded-full bg-[#b18cff] py-1.5 pl-1.5 pr-6 text-sm font-medium text-[#0b0912] shadow-[0_0_0_3px_rgba(177,140,255,0.22),0_12px_40px_-10px_rgba(139,92,246,0.7)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#c4a7ff] hover:shadow-[0_0_0_4px_rgba(177,140,255,0.3),0_16px_48px_-10px_rgba(139,92,246,0.85)]"
+                href={CONTACT_PATH}
               >
-                <path d="M4 12h15M13 6l6 6-6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
-            <a
-              className="inline-block px-7 py-3.5 rounded-full border border-ink/70 text-ink text-sm font-medium transition-all duration-300 hover:-translate-y-1 hover:bg-white/50 hover:border-lilac-deep"
-              href="https://wa.me/256776419829"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Chat on WhatsApp
-            </a>
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0b0912]">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="w-4 h-4 text-[#b18cff] transition-transform duration-300 group-hover:translate-x-0.5"
+                    stroke="currentColor"
+                    fill="none"
+                  >
+                    <path d="M4 12h15M13 6l6 6-6 6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+                Book a Consultation
+              </a>
+              <a
+                className="inline-block rounded-full border border-white/25 px-7 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-[#b18cff] hover:bg-white/[0.06]"
+                href="https://wa.me/256776419829"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Chat on WhatsApp
+              </a>
+            </div>
           </div>
         </div>
       </section>
