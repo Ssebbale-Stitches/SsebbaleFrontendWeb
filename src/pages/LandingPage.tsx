@@ -246,9 +246,7 @@ const FAQS = [
 ];
 
 const btnPrimary =
-  "inline-block px-6 py-3 rounded bg-lilac-deep text-paper text-sm font-medium transition-colors transition-transform hover:-translate-y-0.5 hover:bg-ink";
-const btnGhost =
-  "inline-block px-6 py-3 rounded border border-ink text-ink text-sm font-medium transition-transform hover:-translate-y-0.5";
+  "inline-block px-6 py-3 rounded bg-lilac-deep text-paper text-sm font-medium transition-transform hover:-translate-y-0.5 hover:bg-ink";
 const eyebrow = "font-mono uppercase tracking-[0.14em] text-xs text-lilac-deep mb-3.5";
 const eyebrowDark = "font-mono uppercase tracking-[0.14em] text-xs text-lilac-light mb-3.5";
 const h2Base = "font-display font-semibold text-[clamp(1.7rem,3vw,2.3rem)] leading-[1.1] max-w-[20ch]";
