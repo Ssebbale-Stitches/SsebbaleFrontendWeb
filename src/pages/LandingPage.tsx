@@ -245,8 +245,11 @@ const FAQS = [
   },
 ];
 
-const btnPrimary =
-  "inline-block px-6 py-3 rounded bg-lilac-deep text-paper text-sm font-medium transition-transform hover:-translate-y-0.5 hover:bg-ink";
+// Shared button styles: every button on the page is rectangular, matching the hero.
+const btnSolid =
+  "group inline-flex items-center gap-3 px-7 py-3.5 rounded bg-lilac-deep text-paper text-sm font-medium shadow-lg shadow-lilac-deep/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-lilac-light hover:text-ink";
+const btnOutline =
+  "inline-block px-7 py-3.5 rounded border border-white/60 text-paper text-sm font-medium backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:border-white";
 const eyebrow = "font-mono uppercase tracking-[0.14em] text-xs text-lilac-deep mb-3.5";
 const eyebrowDark = "font-mono uppercase tracking-[0.14em] text-xs text-lilac-light mb-3.5";
 const h2Base = "font-display font-semibold text-[clamp(1.7rem,3vw,2.3rem)] leading-[1.1] max-w-[20ch]";
@@ -307,13 +310,18 @@ const SOCIALS = [
 export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showTop, setShowTop] = useState(false);
   const [heroReady, setHeroReady] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [newsEmail, setNewsEmail] = useState("");
   const [newsStatus, setNewsStatus] = useState<"idle" | "invalid" | "sent">("idle");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 12);
+      setShowTop(window.scrollY > 600);
+    };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -436,7 +444,7 @@ export default function LandingPage() {
           ))}
 
           <a
-            className="text-sm text-paper no-underline rounded-full px-5 py-2 bg-lilac-deep shadow-md shadow-lilac-deep/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink"
+            className="text-sm font-medium text-paper no-underline rounded px-5 py-2.5 bg-lilac-deep shadow-md shadow-lilac-deep/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink"
             href={CONTACT_PATH}
           >
             Contact
@@ -498,10 +506,7 @@ export default function LandingPage() {
 
             <div {...heroIn(360)}>
               <div className="flex gap-3.5 flex-wrap">
-                <a
-                  className="group inline-flex items-center gap-3 px-7 py-3.5 rounded bg-lilac-deep text-paper text-sm font-medium shadow-lg shadow-lilac-deep/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-lilac-light hover:text-ink"
-                  href={CONTACT_PATH}
-                >
+                <a className={btnSolid} href={CONTACT_PATH}>
                   Book a Consultation
                   <svg
                     viewBox="0 0 24 24"
@@ -512,10 +517,7 @@ export default function LandingPage() {
                     <path d="M4 12h15M13 6l6 6-6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
-                <a
-                  className="inline-block px-7 py-3.5 rounded border border-white/60 text-paper text-sm font-medium backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:border-white"
-                  href="#collections"
-                >
+                <a className={btnOutline} href="#collections">
                   Browse Collections
                 </a>
               </div>
@@ -647,10 +649,7 @@ export default function LandingPage() {
         </div>
 
         <div className="relative mt-14 flex justify-start">
-          <a
-            href={CONTACT_PATH}
-            className="group inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-gradient-to-r from-lilac-deep to-lilac text-paper text-sm font-medium shadow-lg shadow-lilac-deep/40 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
-          >
+          <a href={CONTACT_PATH} className={btnSolid}>
             Book a Consultation
             <svg viewBox="0 0 24 24" className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" stroke="currentColor" fill="none">
               <path d="M4 12h15M13 6l6 6-6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -751,8 +750,11 @@ export default function LandingPage() {
               Manage products, bookings, suit hire and customer orders from one dashboard built for daily use,
               not quarterly reports.
             </p>
-            <a className={btnPrimary} href="/login">
+            <a className={btnSolid} href="/login">
               Sign In to Dashboard
+              <svg viewBox="0 0 24 24" className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" stroke="currentColor" fill="none">
+                <path d="M4 12h15M13 6l6 6-6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </a>
           </div>
           <div className="flex flex-col gap-5 justify-center border-t md:border-t-0 md:border-l border-paper/15 pt-5 md:pt-0 md:pl-8">
@@ -889,24 +891,19 @@ export default function LandingPage() {
             </ul>
 
             <div className="flex flex-wrap items-center justify-center gap-3.5">
-              <a
-                className="group inline-flex items-center gap-3 rounded-full bg-[#b18cff] py-1.5 pl-1.5 pr-6 text-sm font-medium text-[#0b0912] shadow-[0_0_0_3px_rgba(177,140,255,0.22),0_12px_40px_-10px_rgba(139,92,246,0.7)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#c4a7ff] hover:shadow-[0_0_0_4px_rgba(177,140,255,0.3),0_16px_48px_-10px_rgba(139,92,246,0.85)]"
-                href={CONTACT_PATH}
-              >
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#0b0912]">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="w-4 h-4 text-[#b18cff] transition-transform duration-300 group-hover:translate-x-0.5"
-                    stroke="currentColor"
-                    fill="none"
-                  >
-                    <path d="M4 12h15M13 6l6 6-6 6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
+              <a className={btnSolid} href={CONTACT_PATH}>
                 Book a Consultation
+                <svg
+                  viewBox="0 0 24 24"
+                  className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                  stroke="currentColor"
+                  fill="none"
+                >
+                  <path d="M4 12h15M13 6l6 6-6 6" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </a>
               <a
-                className="inline-block rounded-full border border-white/25 px-7 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-[#b18cff] hover:bg-white/[0.06]"
+                className={btnOutline}
                 href="https://wa.me/256776419829"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -929,10 +926,7 @@ export default function LandingPage() {
             <h2 className="font-display font-semibold text-[clamp(2rem,4.5vw,3.4rem)] leading-[1.05]">
               Let's <span className="text-lilac-light">Connect</span> there
             </h2>
-            <a
-              href={CONTACT_PATH}
-              className="group self-start md:self-auto inline-flex items-center gap-2.5 px-7 py-3 rounded-full bg-lilac-deep text-paper text-sm font-medium shadow-lg shadow-lilac-deep/40 transition-all duration-300 hover:-translate-y-0.5 hover:bg-lilac hover:text-ink"
-            >
+            <a href={CONTACT_PATH} className={`${btnSolid} self-start md:self-auto`}>
               Contact Us
               <svg
                 viewBox="0 0 24 24"
@@ -967,7 +961,7 @@ export default function LandingPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.07] border border-white/15 text-paper/70 transition-all duration-300 hover:text-paper hover:bg-lilac-deep hover:border-lilac-deep hover:-translate-y-0.5"
+                    className="flex items-center justify-center w-9 h-9 rounded bg-white/[0.07] border border-white/15 text-paper/70 transition-all duration-300 hover:text-paper hover:bg-lilac-deep hover:border-lilac-deep hover:-translate-y-0.5"
                   >
                     <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor">
                       {s.path}
@@ -1038,7 +1032,7 @@ export default function LandingPage() {
               <form
                 onSubmit={onSubscribe}
                 noValidate
-                className="flex items-center gap-2 rounded-full bg-white/[0.07] border border-white/15 pl-5 pr-1.5 py-1.5 transition-colors duration-300 focus-within:border-lilac-light/60 focus-within:bg-white/[0.1]"
+                className="flex items-center gap-2 rounded bg-white/[0.07] border border-white/15 pl-4 pr-1.5 py-1.5 transition-colors duration-300 focus-within:border-lilac-light/60 focus-within:bg-white/[0.1]"
               >
                 <label htmlFor="news-email" className="sr-only">
                   Email address
@@ -1059,7 +1053,7 @@ export default function LandingPage() {
                 <button
                   type="submit"
                   aria-label="Subscribe"
-                  className="shrink-0 w-10 h-10 rounded-full bg-lilac-deep text-paper flex items-center justify-center shadow-md shadow-lilac-deep/40 transition-all duration-300 hover:bg-lilac hover:text-ink hover:scale-105"
+                  className="shrink-0 w-10 h-10 rounded bg-lilac-deep text-paper flex items-center justify-center shadow-md shadow-lilac-deep/40 transition-all duration-300 hover:bg-lilac-light hover:text-ink hover:scale-105"
                 >
                   <svg viewBox="0 0 24 24" className="w-4 h-4" stroke="currentColor" fill="none">
                     <path d="M21 3 10.5 13.5M21 3l-6.5 18-4-7.5L3 9.5 21 3Z" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -1081,22 +1075,25 @@ export default function LandingPage() {
         <div className="relative bg-lilac-deep">
           <div className="px-[6vw] py-4 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-paper">
             <span className="font-medium">© {new Date().getFullYear()} Ssebbale Stitches. All rights reserved.</span>
-            <span className="flex items-center gap-4">
-              <span className="text-paper/80">Kampala, Uganda</span>
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                className="font-medium no-underline text-paper hover:underline"
-              >
-                Back to top ↑
-              </a>
-            </span>
+            <span className="text-paper/80">Kampala, Uganda</span>
           </div>
         </div>
       </footer>
+
+      {/* FLOATING BACK-TO-TOP BUTTON */}
+      <button
+        type="button"
+        aria-label="Back to top"
+        tabIndex={showTop ? 0 : -1}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className={`fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded bg-lilac-deep text-paper shadow-lg shadow-lilac-deep/40 transition-all duration-300 hover:-translate-y-0.5 hover:bg-lilac-light hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lilac-light ${
+          showTop ? "opacity-100 translate-y-0" : "pointer-events-none opacity-0 translate-y-4"
+        }`}
+      >
+        <svg viewBox="0 0 24 24" className="h-5 w-5" stroke="currentColor" fill="none">
+          <path d="M12 19V5M6 11l6-6 6 6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
     </div>
   );
 }
